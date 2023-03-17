@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnLineShop"
         mc:Ignorable="d"
+        xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Меню">
+                <MenuItem Header="Пункт 1"/>
+                <MenuItem Header="Пункт 2"/>
+            </MenuItem>
+            <MenuItem Header="О программе"/>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock Text="Статус подлючения БАЗЫ 1"/>
+            <TextBlock Text="Статус подлючения БАЗЫ 2"/>
+        </StatusBar>
+        <StackPanel>
+            
+        </StackPanel>
+    </DockPanel>
 </Window>
