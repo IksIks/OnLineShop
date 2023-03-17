@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OnLineShop"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:OnLineShop" mc:Ignorable="d"
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -19,10 +18,22 @@
             <MenuItem Header="О программе"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
-            <TextBlock Text="Статус подлючения БАЗЫ 1"/>
-            <TextBlock Text="Статус подлючения БАЗЫ 2"/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="База клиентов"/>
+                    <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ClienBaseColorStatus}" Margin="2,2,0,0" />
+                    
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="База товаров"/>
+                    <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
-        <StackPanel>
+        
+        <StackPanel Orientation="Vertical">
             
         </StackPanel>
     </DockPanel>

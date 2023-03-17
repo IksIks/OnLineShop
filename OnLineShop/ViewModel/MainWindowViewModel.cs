@@ -10,6 +10,13 @@ namespace OnLineShop.ViewModel
     internal class MainWindowViewModel : ViewModelBase
     {
 
+        public string ClienBaseColorStatus { get; set; } = "Red";
+        public string ProductBaseColorStatus { get; set; } = "Red";
+
+        public MainWindowViewModel()
+        {
+
+        }
 
 
 
