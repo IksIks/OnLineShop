@@ -12,7 +12,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Меню">
-                <MenuItem Header="Пункт 1"/>
+                <MenuItem Header="Пункт 1" Command="{Binding ConnetcClientDBCommand}"/>
                 <MenuItem Header="Пункт 2"/>
             </MenuItem>
             <MenuItem Header="О программе"/>
@@ -30,6 +30,9 @@
                     <TextBlock Text="База товаров"/>
                     <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
                 </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding TestConntection}" Height="20" Width="250"/>
             </StatusBarItem>
         </StatusBar>
         
