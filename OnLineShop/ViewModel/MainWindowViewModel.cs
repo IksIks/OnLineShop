@@ -1,6 +1,7 @@
 ﻿using OnLineShop.ViewModel.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,11 @@ namespace OnLineShop.ViewModel
 
         public MainWindowViewModel()
         {
+            SqlConnectionStringBuilder connectionDBClients = new SqlConnectionStringBuilder()
+            {
+                
+            };
+
 
         }
 
