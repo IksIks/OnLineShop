@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
@@ -14,7 +16,10 @@ namespace OnLineShop.ViewModel
     {
         private string testConntection;
         private SqlConnection connectionClientsDB;
-        private string clienBaseColorStatus, productBaseColorStatus = "Red";
+        private string clienBaseColorStatus = "Red", productBaseColorStatus = "Red";
+        private SqlConnectionStringBuilder connectionStringClientsDB;
+        private SqlConnection connectionProductDB;
+        private string dbChoise;
 
 
         public string TestConntection
@@ -27,40 +32,22 @@ namespace OnLineShop.ViewModel
             get => clienBaseColorStatus;
             set => Set(ref clienBaseColorStatus, value);
         }
-
         public string ProductBaseColorStatus
         {
             get => productBaseColorStatus;
             set => Set(ref productBaseColorStatus, value);
         }
-
-
-        #region Команды
-
-        #region Команда загрузки базы
-        public ICommand ConnetcClientDBCommand { get; }
-        private bool CanConnetcClientDBCommandExecute(object parameter) => true;
-        private void OnConnetcClientDBCommandExecuted(object parameter)
-        {
-            connectionClientsDB.Open();
-            ClienBaseColorStatus = "Green";
-            TestConntection = connectionClientsDB.State.ToString();
-        }  
-        #endregion
-
-        #endregion
-
-
-
-
         public MainWindowViewModel()
         {
 
-            SqlConnectionStringBuilder connectionStringClientsDB = new SqlConnectionStringBuilder()
+            connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
                 InitialCatalog = "ClientsDB",
-                IntegratedSecurity = false
+                IntegratedSecurity = false,
+                UserID = "Employee",
+                Password = "1234567890",
+                Pooling= true
             };
 
             connectionClientsDB = new SqlConnection()
@@ -70,6 +57,54 @@ namespace OnLineShop.ViewModel
 
             ConnetcClientDBCommand = new LambdaCommand(OnConnetcClientDBCommandExecuted, CanConnetcClientDBCommandExecute);
         }
+
+
+        #region Команды
+
+        #region Команда загрузки базы
+        public ICommand ConnetcClientDBCommand { get; }
+        private bool CanConnetcClientDBCommandExecute(object parameter) => true;
+        private async void OnConnetcClientDBCommandExecuted(object parameter)
+        {
+            dbChoise = parameter as String;
+            string answer = await Task<string>.Factory.StartNew(StartConnection);
+            if (Equals(answer, "Open"))
+            {
+                if (dbChoise == "0")
+                    ClienBaseColorStatus = "Green";
+                else ProductBaseColorStatus = "Green";
+            }
+            TestConntection = connectionClientsDB.State.ToString();
+        }  
+        #endregion
+
+        #endregion
+        /// <summary>
+        /// Запуск соединения с базой
+        /// </summary>
+        /// <param name="param">значения для выбора запускаемой базы</param>
+        /// <returns></returns>
+        private string StartConnection()
+        {            
+            try
+            {
+                if (dbChoise == "0")
+                    connectionClientsDB.Open();
+                else connectionProductDB.Open();
+                return "Open";
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
+                return "Closed";
+            }
+            //finally { connectionClientsDB.Close(); }
+            
+        }
+
+
+
 
 
 

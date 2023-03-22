@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnLineShop" mc:Ignorable="d"
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
+        xmlns:mattDes="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -12,31 +13,29 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Меню">
-                <MenuItem Header="Пункт 1" Command="{Binding ConnetcClientDBCommand}"/>
-                <MenuItem Header="Пункт 2"/>
+                <MenuItem Header="Пункт 1" Command="{Binding ConnectClientDBCommand}" CommandParameter="0"/>
+                <MenuItem Header="Пункт 2" Command="{Binding ConnectClientDBCommand}" CommandParameter="1"/>
             </MenuItem>
             <MenuItem Header="О программе"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="База клиентов"/>
+                    <TextBlock Text="База клиентов" Foreground="DarkBlue"/>
                     <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ClienBaseColorStatus}" Margin="2,2,0,0" />
-                    
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="База товаров"/>
+                    <TextBlock Text="База товаров" Foreground="DarkBlue"/>
                     <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock Text="{Binding TestConntection}" Height="20" Width="250"/>
+                <TextBlock Text="{Binding TestConntection}" Height="22"/>
             </StatusBarItem>
         </StatusBar>
-        
-        <StackPanel Orientation="Vertical">
+        <StackPanel>
             
         </StackPanel>
     </DockPanel>
