@@ -17,8 +17,8 @@ namespace OnLineShop.ViewModel
         private string testConntection;
         private SqlConnection connectionClientsDB;
         private string clienBaseColorStatus = "Red", productBaseColorStatus = "Red";
-        private SqlConnectionStringBuilder connectionStringClientsDB;
-        private SqlConnection connectionProductDB;
+        private readonly SqlConnectionStringBuilder connectionStringClientsDB;
+        private readonly SqlConnection connectionProductDB;
         private string dbChoise;
 
 
@@ -45,8 +45,6 @@ namespace OnLineShop.ViewModel
                 DataSource = @"(localdb)\MSSQLLocalDB",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
-                //UserID = "Employee",
-                //Password = "1234567890",
                 Pooling= true
             };
 
@@ -67,29 +65,33 @@ namespace OnLineShop.ViewModel
         private async void OnConnectClientDBCommandExecuted(object parameter)
         {
             dbChoise = parameter as String;
-            string answer = await Task<string>.Factory.StartNew(StartConnection);
+            string answer = await StartConnectionDBAsync();
             if (Equals(answer, "Open"))
             {
                 if (dbChoise == "0")
                     ClienBaseColorStatus = "Green";
                 else ProductBaseColorStatus = "Green";
             }
-            TestConntection = connectionClientsDB.State.ToString();
         }  
         #endregion
 
         #endregion
         /// <summary>Запуск соединения с базой</summary>
         /// <returns>состояние соединения</returns>
-        private string StartConnection()
+        private async Task<string> StartConnectionDBAsync()
         {            
             try
             {
                 if (dbChoise == "0")
-                    connectionClientsDB.Open();
-                else connectionProductDB.Open();
-                return "Open";
-
+                {
+                    await Task.Run(() => connectionClientsDB.Open());
+                    return connectionClientsDB.State.ToString();
+                }
+                else
+                {
+                    await Task.Run(() => connectionProductDB.Open());
+                    return connectionProductDB.State.ToString();
+                }
             }
             catch (Exception e)
             {

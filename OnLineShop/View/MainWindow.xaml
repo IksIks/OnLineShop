@@ -13,8 +13,8 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Меню">
-                <MenuItem Header="Пункт 1" Command="{Binding ConnectClientDBCommand}" CommandParameter="0"/>
-                <MenuItem Header="Пункт 2" Command="{Binding ConnectClientDBCommand}" CommandParameter="1"/>
+                <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="0"/>
+                <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="1"/>
             </MenuItem>
             <MenuItem Header="О программе"/>
         </Menu>
