@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:OnLineShop" mc:Ignorable="d"
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         xmlns:mattDes="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:db="clr-namespace:OnLineShop.Service"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <DockPanel>
+    <DockPanel Background="Beige">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Меню">
                 <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="0"/>
@@ -26,6 +27,9 @@
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem>
+                <StatusBarItem.DataContext>
+                    <db:DBWork/>
+                </StatusBarItem.DataContext>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="База товаров" Foreground="DarkBlue"/>
                     <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
