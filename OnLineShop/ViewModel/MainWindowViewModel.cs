@@ -15,7 +15,10 @@ namespace OnLineShop.ViewModel
     internal class MainWindowViewModel : ViewModelBase
     {
         private string testConntection;
+        private SqlConnection connectionClientsDB;
         private string clienBaseColorStatus = "Red", productBaseColorStatus = "Red";
+        private readonly SqlConnectionStringBuilder connectionStringClientsDB;
+        private readonly SqlConnection connectionProductDB;
         private string dbChoise;
 
 
@@ -37,7 +40,18 @@ namespace OnLineShop.ViewModel
         public MainWindowViewModel()
         {
 
-            
+            connectionStringClientsDB = new SqlConnectionStringBuilder()
+            {
+                DataSource = @"(localdb)\MSSQLLocalDB",
+                InitialCatalog = "ClientsDB",
+                IntegratedSecurity = true,
+                Pooling= true
+            };
+
+            connectionClientsDB = new SqlConnection()
+            {
+                ConnectionString = connectionStringClientsDB.ConnectionString
+            };
 
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
         }
@@ -62,7 +76,28 @@ namespace OnLineShop.ViewModel
         #endregion
 
         #endregion
-        
+        /// <summary>Запуск соединения с базой</summary>
+        /// <returns>состояние соединения</returns>
+        private async Task<string> StartConnectionDBAsync()
+        {            
+            try
+            {
+                if (dbChoise == "0")
+                {
+                    await Task.Run(() => connectionClientsDB.Open());
+                    return connectionClientsDB.State.ToString();
+                }
+                else
+                {
+                    await Task.Run(() => connectionProductDB.Open());
+                    return connectionProductDB.State.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
+                return "Closed";
+            }
             //finally { connectionClientsDB.Close(); }
             
         }
