@@ -20,6 +20,7 @@ namespace OnLineShop.Data
             connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
+                AttachDBFilename = @"F:\C# проекты\Проекты\OnLineShop\OnLineShop\ClientsDB.mdf",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
                 Pooling = true
@@ -29,9 +30,6 @@ namespace OnLineShop.Data
             {
                 DataSource = "ProductDB",
                 Provider = "SQLOLEDB",
-                
-                
-
             };
 
             connectionClientsDB = new SqlConnection()
@@ -53,12 +51,12 @@ namespace OnLineShop.Data
             {
                 if (s == "0")
                 {
-                    await Task.Run(() => connectionClientsDB.Open());
+                    await Task.Run(() => connectionClientsDB.OpenAsync());
                     return connectionClientsDB.State.ToString();
                 }
                 else
                 {
-                    await Task.Run(() => connectionProductDB.Open());
+                    await Task.Run(() => connectionProductDB.OpenAsync());
                     return connectionProductDB.State.ToString();
                 }
             }
@@ -66,6 +64,12 @@ namespace OnLineShop.Data
             {
                 MessageBox.Show($"{e.Message}");
                 return "Closed";
+            }
+            finally
+            {
+                if (s == "0")
+                    await Task.Run( () => connectionClientsDB.Close());
+                await Task.Run(() => connectionProductDB.Close());
             }
         }
     }

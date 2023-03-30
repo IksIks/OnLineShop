@@ -46,19 +46,21 @@ namespace OnLineShop.ViewModel
         #region Команды
 
         #region Команда загрузки базы
-        public ICommand ConnectClientDBCommand { get; }
-        private bool CanConnectClientDBCommandExecute(object parameter) => true;
-        private async void OnConnectClientDBCommandExecuted(object parameter)
-        {
-            dbChoise= parameter as string;
-            string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
-            if (Equals(answer, "Open"))
+
+            public ICommand ConnectClientDBCommand { get; }
+            private bool CanConnectClientDBCommandExecute(object parameter) => true;
+            private async void OnConnectClientDBCommandExecuted(object parameter)
             {
-                if (dbChoise == "0")
-                    ClienBaseColorStatus = "Green";
-                else ProductBaseColorStatus = "Green";
+                dbChoise= parameter as string;
+                string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
+                if (Equals(answer, "Open"))
+                {
+                    if (dbChoise == "0")
+                        ClienBaseColorStatus = "Green";
+                    else ProductBaseColorStatus = "Green";
+                }
             }
-        }  
+
         #endregion
 
         #endregion

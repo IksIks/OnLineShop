@@ -5,38 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnLineShop" mc:Ignorable="d"
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
-        xmlns:mattDes="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+    <DockPanel Background="Beige">
+        <Menu DockPanel.Dock="Top" Background="Beige">
             <MenuItem Header="Меню">
                 <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="0"/>
                 <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="1"/>
             </MenuItem>
             <MenuItem Header="О программе"/>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="База клиентов" Foreground="DarkBlue"/>
-                    <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ClienBaseColorStatus}" Margin="2,2,0,0" />
-                </StackPanel>
-            </StatusBarItem>
-            <StatusBarItem>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="База товаров" Foreground="DarkBlue"/>
-                    <Ellipse Height="9" Stroke="Black" Width="9" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
-                </StackPanel>
-            </StatusBarItem>
-            <StatusBarItem>
+        <StatusBar DockPanel.Dock="Bottom" Background="Beige" Margin="3,0,0,3">
+            <StatusBar.Resources>
+                <Style x:Key="BorderStyle" TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                    <Setter Property="Background" Value="Khaki"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="Padding" Value="0,0,0,1"/>
+                </Style>
+            </StatusBar.Resources>
+            <Border Style="{StaticResource BorderStyle}">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="4"/>
+                </Border.Effect>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="База клиентов" Foreground="DarkBlue"/>
+                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ClienBaseColorStatus}" Margin="2,2,0,0" />
+                    </StackPanel>
+                </StatusBarItem>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="4"/>
+                </Border.Effect>
+                <StatusBarItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="База покупок" Foreground="DarkBlue"/>
+                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
+                    </StackPanel>
+                </StatusBarItem>
+            </Border>
+            <!--<StatusBarItem>
                 <TextBlock Text="{Binding TestConntection}" Height="22"/>
-            </StatusBarItem>
+            </StatusBarItem>-->
         </StatusBar>
-        <StackPanel>
-            
-        </StackPanel>
+        <Grid ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="89*"/>
+                <ColumnDefinition Width="311*"/>
+            </Grid.ColumnDefinitions>
+            <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
+                <UniformGrid.Resources>
+                </UniformGrid.Resources>
+                <Button Style="{StaticResource NewButtonStyle}" FontSize="13">
+                    <Button.Content>
+                        <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13"/>
+                <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"/>
+            </UniformGrid>
+
+            <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
+                <DataGrid Background="LightBlue">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID"/>
+                        <DataGridTextColumn Header="Фамилия"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
     </DockPanel>
 </Window>
