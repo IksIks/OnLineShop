@@ -13,14 +13,12 @@ namespace OnLineShop.Data
         private readonly OleDbConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
-
-
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
-                AttachDBFilename = @"F:\C# проекты\Проекты\OnLineShop\OnLineShop\ClientsDB.mdf",
+                AttachDBFilename = @"D:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\CLIENTSDB.MDF",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
                 Pooling = true

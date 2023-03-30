@@ -63,18 +63,27 @@
                 </UniformGrid.Resources>
                 <Button Style="{StaticResource NewButtonStyle}" FontSize="13">
                     <Button.Content>
-                        <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
+                        <TextBlock Text="Обновление данных &#xa; о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
                     </Button.Content>
                 </Button>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13"/>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"/>
             </UniformGrid>
-
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-                <DataGrid Background="LightBlue">
+                <DataGrid ItemsSource="{Binding ClientsBase}">
+                    <DataGrid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="LightBlue" Offset="0"/>
+                            <GradientStop Color="SlateGray" Offset="1"/>
+                        </LinearGradientBrush>
+                    </DataGrid.Background>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding id}"/>
                         <DataGridTextColumn Header="Фамилия"/>
+                        <DataGridTextColumn Header="Имя"/>
+                        <DataGridTextColumn Header="Отчество"/>
+                        <DataGridTextColumn Header="Телефон"/>
+                        <DataGridTextColumn Header="Email"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

@@ -21,7 +21,7 @@
                         </Border.Effect>
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                                <GradientStop Color="Red" Offset="0.0"/>
+                                <GradientStop Color="Red" Offset="0"/>
                                 <GradientStop Color="Orange" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
