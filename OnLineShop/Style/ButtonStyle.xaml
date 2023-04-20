@@ -1,6 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="NewButtonStyle" TargetType="Button">
+        <!--<Style.Triggers>
+            <EventTrigger RoutedEvent="Click">
+                <SoundPlayerAction Source=""/>
+            </EventTrigger>
+        </Style.Triggers>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -49,5 +54,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
     </Style>
 </ResourceDictionary>

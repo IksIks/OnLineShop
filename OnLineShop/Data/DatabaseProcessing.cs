@@ -3,14 +3,15 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Data.OleDb;
+using Npgsql;
 
 namespace OnLineShop.Data
 {
     internal class DatabaseProcessing
     {
         private readonly SqlConnection connectionClientsDB;
-        private readonly OleDbConnection connectionProductDB;
-        private readonly OleDbConnectionStringBuilder connectionStringProductDB;
+        private readonly NpgsqlConnection connectionProductDB;
+        private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
         public DatabaseProcessing()
@@ -18,16 +19,18 @@ namespace OnLineShop.Data
             connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
-                AttachDBFilename = @"D:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\CLIENTSDB.MDF",
+                AttachDBFilename = @"C:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\CLIENTSDB.MDF",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
                 Pooling = true
             };
-
-            connectionStringProductDB = new OleDbConnectionStringBuilder()
+            //Host=localhost;Database=Product;Username=postgres;Password=***********;Persist Security Info=True
+            connectionStringProductDB = new NpgsqlConnectionStringBuilder()
             {
-                DataSource = "ProductDB",
-                Provider = "SQLOLEDB",
+                Host= "localhost",
+                Database = "Product",
+                Username = "postgres",
+                Password= "1"
             };
 
             connectionClientsDB = new SqlConnection()
@@ -35,7 +38,7 @@ namespace OnLineShop.Data
                 ConnectionString = connectionStringClientsDB.ConnectionString
             };
 
-            connectionProductDB = new OleDbConnection()
+            connectionProductDB = new NpgsqlConnection()    
             {
                 ConnectionString = connectionStringProductDB.ConnectionString
             };

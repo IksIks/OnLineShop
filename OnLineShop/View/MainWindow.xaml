@@ -63,7 +63,7 @@
                 </UniformGrid.Resources>
                 <Button Style="{StaticResource NewButtonStyle}" FontSize="13">
                     <Button.Content>
-                        <TextBlock Text="Обновление данных &#xa; о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
+                        <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
                     </Button.Content>
                 </Button>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13"/>
