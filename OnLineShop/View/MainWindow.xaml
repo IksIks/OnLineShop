@@ -70,7 +70,7 @@
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"/>
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-                <DataGrid ItemsSource="{Binding ClientsBase}" AutoGenerateColumns="False">
+                <DataGrid ItemsSource="{Binding ClientsDataGridItem}" AutoGenerateColumns="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="LightBlue" Offset="0"/>

@@ -21,13 +21,20 @@ namespace OnLineShop.ViewModel
         private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
-        private DataTable clientsBase;
 
+        private DataTable clientsDataGridItem;
+        private DataTable productDataGridItem;
 
-        public DataTable ClientsBase      
+        public DataTable ProductDataGridItem
         {
-            get => clientsBase;
-            set => Set(ref clientsBase, value);
+            get => productDataGridItem;
+            set => Set(ref productDataGridItem, value);
+        }
+
+        public DataTable ClientsDataGridItem      
+        {
+            get => clientsDataGridItem;
+            set => Set(ref clientsDataGridItem, value);
         }
         public string TestConntection
         {
@@ -44,13 +51,12 @@ namespace OnLineShop.ViewModel
             get => productDBColorStatus;
             set => Set(ref productDBColorStatus, value);
         }
+
         public MainWindowViewModel()
         {
             dataBaseProcessing= new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
         }
-       
-        
 
         #region Команды
 
@@ -64,12 +70,16 @@ namespace OnLineShop.ViewModel
                 string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
                 if (Equals(answer, "Open"))
                 {
-                if (dbChoise == "0")
-                {
-                    ClienDBColorStatus = "Green";
-                    ClientsBase = dataBaseProcessing.FillClientsDataTable();
-                }
-                    else ProductDBColorStatus = "Green";
+                    if (dbChoise == "0")
+                    {
+                        ClienDBColorStatus = "Green";
+                        ClientsDataGridItem = await dataBaseProcessing.FillClientsDataTable(dbChoise);
+                    }
+                    else
+                    {
+                        ProductDBColorStatus = "Green";
+                        ProductDataGridItem = await dataBaseProcessing.FillProductDataTable(dbChoise);
+                    }
                 }
             }
 
