@@ -34,7 +34,7 @@
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="База клиентов" Foreground="DarkBlue"/>
-                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ClienBaseColorStatus}" Margin="2,2,0,0" />
+                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ClienDBColorStatus}" Margin="2,2,0,0" />
                     </StackPanel>
                 </StatusBarItem>
             </Border>
@@ -45,7 +45,7 @@
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="База покупок" Foreground="DarkBlue"/>
-                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ProductBaseColorStatus}" Margin="2,2,0,0" />
+                        <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ProductDBColorStatus}" Margin="2,2,0,0" />
                     </StackPanel>
                 </StatusBarItem>
             </Border>
@@ -70,7 +70,7 @@
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"/>
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-                <DataGrid ItemsSource="{Binding ClientsBase}">
+                <DataGrid ItemsSource="{Binding ClientsBase}" AutoGenerateColumns="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="LightBlue" Offset="0"/>
@@ -78,12 +78,12 @@
                         </LinearGradientBrush>
                     </DataGrid.Background>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding id}"/>
-                        <DataGridTextColumn Header="Фамилия"/>
-                        <DataGridTextColumn Header="Имя"/>
-                        <DataGridTextColumn Header="Отчество"/>
-                        <DataGridTextColumn Header="Телефон"/>
-                        <DataGridTextColumn Header="Email"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

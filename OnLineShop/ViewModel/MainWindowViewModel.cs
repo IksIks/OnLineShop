@@ -3,6 +3,7 @@ using OnLineShop.Data;
 using OnLineShop.ViewModel.Base;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -17,31 +18,39 @@ namespace OnLineShop.ViewModel
     {
         private string testConntection;
         
-        private string clienBaseColorStatus = "Red", productBaseColorStatus = "Red";
+        private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
+        private DataTable clientsBase;
 
+
+        public DataTable ClientsBase      
+        {
+            get => clientsBase;
+            set => Set(ref clientsBase, value);
+        }
         public string TestConntection
         {
             get => testConntection;
             set => Set(ref testConntection, value);
         }
-        public string ClienBaseColorStatus
+        public string ClienDBColorStatus
         {
-            get => clienBaseColorStatus;
-            set => Set(ref clienBaseColorStatus, value);
+            get => clienDBColorStatus;
+            set => Set(ref clienDBColorStatus, value);
         }
-        public string ProductBaseColorStatus
+        public string ProductDBColorStatus
         {
-            get => productBaseColorStatus;
-            set => Set(ref productBaseColorStatus, value);
+            get => productDBColorStatus;
+            set => Set(ref productDBColorStatus, value);
         }
         public MainWindowViewModel()
         {
             dataBaseProcessing= new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
         }
-
+       
+        
 
         #region Команды
 
@@ -55,9 +64,12 @@ namespace OnLineShop.ViewModel
                 string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
                 if (Equals(answer, "Open"))
                 {
-                    if (dbChoise == "0")
-                        ClienBaseColorStatus = "Green";
-                    else ProductBaseColorStatus = "Green";
+                if (dbChoise == "0")
+                {
+                    ClienDBColorStatus = "Green";
+                    ClientsBase = dataBaseProcessing.FillClientsDataTable();
+                }
+                    else ProductDBColorStatus = "Green";
                 }
             }
 

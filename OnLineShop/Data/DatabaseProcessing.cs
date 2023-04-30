@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Npgsql;
+using System;
+using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Data.OleDb;
-using Npgsql;
 
 namespace OnLineShop.Data
 {
@@ -13,22 +14,29 @@ namespace OnLineShop.Data
         private readonly NpgsqlConnection connectionProductDB;
         private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
+        public Func<DataTable> FillClientsDataTable;
+        public Func<DataTable> FillProductDataTable;
+        public DataTable ClientsDataTable = new DataTable();
+        public DataTable ProductDataTable = new DataTable();
+        public SqlDataAdapter SqlDataAdapterRoductDB = new SqlDataAdapter();
+        private string test = "SELECT * FROM ClientsDB.dbo.Clients";
+        public SqlDataAdapter SqlDataAdapterClientDB;
 
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
-                AttachDBFilename = @"C:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\CLIENTSDB.MDF",
+                //AttachDBFilename = @"C:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\DB\CLIENTSDB.MDF",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
                 Pooling = true
             };
-            //Host=localhost;Database=Product;Username=postgres;Password=***********;Persist Security Info=True
+            
             connectionStringProductDB = new NpgsqlConnectionStringBuilder()
             {
                 Host= "localhost",
-                Database = "Product",
+                Database = "ProductDB",
                 Username = "postgres",
                 Password= "1"
             };
@@ -38,10 +46,18 @@ namespace OnLineShop.Data
                 ConnectionString = connectionStringClientsDB.ConnectionString
             };
 
-            connectionProductDB = new NpgsqlConnection()    
+            connectionProductDB = new NpgsqlConnection()   
             {
                 ConnectionString = connectionStringProductDB.ConnectionString
             };
+
+            SqlDataAdapterClientDB = new SqlDataAdapter(test, connectionClientsDB);
+        }
+
+        private DataTable Filling()
+        {
+            SqlDataAdapterClientDB.Fill(ClientsDataTable);
+            return ClientsDataTable;
         }
 
         /// <summary>Запуск соединения с базой</summary>
@@ -53,6 +69,7 @@ namespace OnLineShop.Data
                 if (s == "0")
                 {
                     await Task.Run(() => connectionClientsDB.OpenAsync());
+                    FillClientsDataTable = Filling;
                     return connectionClientsDB.State.ToString();
                 }
                 else
