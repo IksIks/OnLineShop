@@ -1,5 +1,6 @@
 ﻿using OnLineShop.Command;
 using OnLineShop.Data;
+using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,7 @@ namespace OnLineShop.ViewModel
         {
             dataBaseProcessing= new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
+            AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
         }
 
         #region Команды
@@ -85,9 +87,19 @@ namespace OnLineShop.ViewModel
 
         #endregion
 
+        #region Команда добавления клиента
+        public ICommand AddClientCommand { get; }
+        private bool CanAddClientCommandExecute(object parametr) => true;
+        private void OnAddClientCommandExecuted(object parameter)
+        {
+            AddClient addClient = new AddClient();
+            addClient.ShowDialog();
+        }
         #endregion
-        
-            
-     
+
+        #endregion
+
+
+
     }
 }

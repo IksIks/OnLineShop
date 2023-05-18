@@ -15,17 +15,17 @@ namespace OnLineShop.Data
         private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
-        public Func<string, Task<DataTable>> FillClientsDataTable;
-        public Func<string, Task<DataTable>> FillProductDataTable;
-
         private DataTable ClientsDataTable = new DataTable();
         private DataTable ProductDataTable = new DataTable();
 
-        public NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
-        public SqlDataAdapter SqlDataAdapterClientDB;
+        public Func<string, Task<DataTable>> FillClientsDataTable;
+        public Func<string, Task<DataTable>> FillProductDataTable;
 
-        private string test = "SELECT * FROM ClientsDB.dbo.Clients";
 
+        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
+        private SqlDataAdapter SqlDataAdapterClientDB;
+
+        
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
@@ -59,7 +59,7 @@ namespace OnLineShop.Data
             NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM public.\"ShoppingCart\"", connectionProductDB);
         }
         
-        private async Task<DataTable> Filling(string Db)
+        private async Task<DataTable> FillDataTable(string Db)
         {
             if (Db == "0")
             {
@@ -82,13 +82,13 @@ namespace OnLineShop.Data
                 if (s == "0")
                 {
                     await Task.Run(() => connectionClientsDB.OpenAsync());
-                    FillClientsDataTable = Filling;
+                    FillClientsDataTable = FillDataTable;
                     return connectionClientsDB.State.ToString();
                 }
                 else
                 {
                     await Task.Run(() => connectionProductDB.OpenAsync());
-                    FillProductDataTable = Filling;
+                    FillProductDataTable = FillDataTable;
                     return connectionProductDB.State.ToString();
                 }
             }

@@ -42,7 +42,7 @@
                             
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="LightBlue"/>
+                            <Setter Property="Background" TargetName="border" Value="Green"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="SlateBlue"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
@@ -55,5 +55,55 @@
             </Setter.Value>
         </Setter>
         
+    </Style>
+    <Style x:Key="ButtonConfirm" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" CornerRadius="6"
+                            BorderThickness="2"
+                            Width="90"
+                            Height="25"
+                            Margin="1"
+                            BorderBrush="DarkGray">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" 
+                                              HorizontalAlignment="Center" 
+                                              Margin="1" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="True" 
+                                              VerticalAlignment="Center"/>
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="4"/>
+                        </Border.Effect>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="LightBlue"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="Green"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="SlateBlue"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="border" Value="Beige"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="DarkGray"/>
+                            <Setter Property="TextElement.Foreground" Value="DarkGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
