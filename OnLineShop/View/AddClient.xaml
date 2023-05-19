@@ -3,27 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:OnLineShop.View"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
         mc:Ignorable="d"
+        xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         Title="Добавление клиента" WindowStartupLocation="CenterScreen" Background="Beige"
         MaxHeight="350" MaxWidth="210" MinHeight="350" MinWidth="210">
+    <Window.DataContext>
+        <vm:AddClientViewModel/>
+    </Window.DataContext>
     <StackPanel Margin="5" Background="Beige">
         <Label Content="Фамилия" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding newCustomer.Surname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="LightGray" FontSize="14" />
         <Label Content="Имя" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding newCustomer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="LightGray" FontSize="14"/>
         <Label Content="Отчество" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding newCustomer.Patronymic, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
         <Label Content="Телефон" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding newCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
         <Label Content="EMail" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding newCustomer.Email, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
         <Grid Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Добавить"  Style="{StaticResource ButtonConfirm}"/>
+            <Button Grid.Column="0" Content="Добавить"  Style="{StaticResource ButtonConfirm}" Command="{Binding AddButtonCommand}"/>
             <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}"/>
 
         </Grid>
