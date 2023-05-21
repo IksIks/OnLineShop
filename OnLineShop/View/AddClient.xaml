@@ -12,15 +12,15 @@
     </Window.DataContext>
     <StackPanel Margin="5" Background="Beige">
         <Label Content="Фамилия" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding newCustomer.Surname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="LightGray" FontSize="14" />
+        <TextBox Text="{Binding NewCustomer.Surname, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
         <Label Content="Имя" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding newCustomer.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding NewCustomer.Name, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Label Content="Отчество" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding newCustomer.Patronymic, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding NewCustomer.Patronymic, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Label Content="Телефон" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding newCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding NewCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Label Content="EMail" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding newCustomer.Email, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="LightGray" FontSize="14"/>
+        <TextBox Text="{Binding NewCustomer.Email, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Grid Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>

@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using OnLineShop.Model;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,10 +23,15 @@ namespace OnLineShop.Data
         public Func<string, Task<DataTable>> FillProductDataTable;
 
 
-        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
         private SqlDataAdapter SqlDataAdapterClientDB;
+        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
 
+        public event Action Test;
+
+        private string sqlRequest;
         
+
+
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
@@ -57,7 +63,10 @@ namespace OnLineShop.Data
 
             SqlDataAdapterClientDB = new SqlDataAdapter("SELECT * FROM Clients", connectionClientsDB);
             NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM public.\"ShoppingCart\"", connectionProductDB);
+            
         }
+
+        
         
         private async Task<DataTable> FillDataTable(string Db)
         {
@@ -103,6 +112,29 @@ namespace OnLineShop.Data
                     await Task.Run( () => connectionClientsDB.Close());
                 await Task.Run(() => connectionProductDB.Close());
             }
+        }
+
+        public void InsertRequest()
+        {
+            sqlRequest = @"INSER INTO ClientsDB (Surname, Name, Patronymic, PhoneNumber, Email)" +
+                                "VALUES(@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
+                                "SET @ID @@IDENTITY";
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 0, "ID").Direction= ParameterDirection.Output;
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
+            
+        }
+
+        public void AddRow(Customer customer)
+        {
+            //if (customer == null)
+            DataRow row = ClientsDataTable.NewRow();
+            row["Фамилия"] = customer.Surname;
+            ClientsDataTable.Rows.Add(row);
+            SqlDataAdapterClientDB.Fill(ClientsDataTable);
         }
     }
 }
