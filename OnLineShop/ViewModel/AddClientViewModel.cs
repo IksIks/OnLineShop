@@ -1,12 +1,18 @@
 ﻿using OnLineShop.Command;
+using OnLineShop.Data;
 using OnLineShop.Model;
 using System;
+using System.Data;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
 {
     internal class AddClientViewModel
     {
+
+        public static event Action<Customer> AddNewCustomer;
         public Customer NewCustomer { get; set; }
 
         public AddClientViewModel()
@@ -27,7 +33,11 @@ namespace OnLineShop.ViewModel
         }
         private void OnAddButtonCommandExecited(object parameter)
         {
+            Application.Current.Windows[1].Close();
+            AddNewCustomer?.Invoke(NewCustomer);
 
         }
+
+        
     }
 }

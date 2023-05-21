@@ -1,5 +1,6 @@
 ﻿using OnLineShop.Command;
 using OnLineShop.Data;
+using OnLineShop.Model;
 using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System.Data;
@@ -15,19 +16,19 @@ namespace OnLineShop.ViewModel
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
 
-        private DataTable clientsDataGridItem;
-        private DataTable productDataGridItem;
-
-        public DataTable ProductDataGridItem
+        private DataTable clientsDataGridItemTable = new DataTable();
+        private DataTable productDataGridItemTable;
+        
+        public DataTable ProductDataGridItemTable
         {
-            get => productDataGridItem;
-            set => Set(ref productDataGridItem, value);
+            get => productDataGridItemTable;
+            set => Set(ref productDataGridItemTable, value);
         }
 
-        public DataTable ClientsDataGridItem      
+        public DataTable ClientsDataGridItemTable
         {
-            get => clientsDataGridItem;
-            set => Set(ref clientsDataGridItem, value);
+            get => clientsDataGridItemTable;
+            set => Set(ref clientsDataGridItemTable, value);
         }
         public string TestConntection
         {
@@ -50,7 +51,8 @@ namespace OnLineShop.ViewModel
             dataBaseProcessing= new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
-        }
+            
+    }
 
         #region Команды
 
@@ -67,12 +69,12 @@ namespace OnLineShop.ViewModel
                     if (dbChoise == "0")
                     {
                         ClienDBColorStatus = "Green";
-                        ClientsDataGridItem = await dataBaseProcessing.FillClientsDataTable(dbChoise);
+                        ClientsDataGridItemTable = await dataBaseProcessing.FillClientsDataTable(dbChoise);
                     }
                     else
                     {
                         ProductDBColorStatus = "Green";
-                        ProductDataGridItem = await dataBaseProcessing.FillProductDataTable(dbChoise);
+                        ProductDataGridItemTable = await dataBaseProcessing.FillProductDataTable(dbChoise);
                     }
                 }
             }
@@ -84,13 +86,29 @@ namespace OnLineShop.ViewModel
         private bool CanAddClientCommandExecute(object parametr) => true;
         private void OnAddClientCommandExecuted(object parameter)
         {
+            AddClientViewModel.AddNewCustomer += AddClientViewModel_TestEvent;
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
         }
-        #endregion
+
+        private void AddClientViewModel_TestEvent(Customer arg)
+        {
+            Customer test = arg as Customer;
+            DataRow row = ClientsDataGridItemTable.NewRow();
+            row["Surname"] = test.Surname;
+        }
 
         #endregion
 
+        #endregion
+
+        public void AddRow(Customer customer)
+        {
+            //if (customer == null)
+            //DataRow row = ClientsDataGridItemTable.NewRow();
+            //row["Surname"] = customer.Surname;
+            
+        }
 
 
     }

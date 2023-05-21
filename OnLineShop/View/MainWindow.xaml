@@ -71,8 +71,7 @@
                         Command="{Binding AddClientCommand}"/>
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-                <DataGrid ItemsSource="{Binding ClientsDataGridItem}" AutoGenerateColumns="False"
-                          >
+                <DataGrid ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="LightBlue" Offset="0"/>
