@@ -16,7 +16,7 @@ namespace OnLineShop.ViewModel
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
 
-        private DataTable clientsDataGridItemTable = new DataTable();
+        private DataTable clientsDataGridItemTable;
         private DataTable productDataGridItemTable;
         
         public DataTable ProductDataGridItemTable
@@ -66,7 +66,7 @@ namespace OnLineShop.ViewModel
                 string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
                 if (Equals(answer, "Open"))
                 {
-                    if (dbChoise == "0")
+                    if (dbChoise == "ClentsDB")
                     {
                         ClienDBColorStatus = "Green";
                         ClientsDataGridItemTable = await dataBaseProcessing.FillClientsDataTable(dbChoise);
@@ -87,15 +87,21 @@ namespace OnLineShop.ViewModel
         private void OnAddClientCommandExecuted(object parameter)
         {
             AddClientViewModel.AddNewCustomer += AddClientViewModel_TestEvent;
+            //AddClientViewModel.AddNewCustomer += dataBaseProcessing.InsertRequest;
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
+            AddClientViewModel.AddNewCustomer -= AddClientViewModel_TestEvent;
         }
 
-        private void AddClientViewModel_TestEvent(Customer arg)
+        private void AddClientViewModel_TestEvent(Customer test)
         {
-            Customer test = arg as Customer;
             DataRow row = ClientsDataGridItemTable.NewRow();
             row["Surname"] = test.Surname;
+            row["Name"] = test.Name;
+            row["Patronymic"] = test.Patronymic;
+            row["PhoneNumber"] = test.PhoneNumber;
+            row["Email"] = test.Email;
+            ClientsDataGridItemTable.Rows.Add(row);
         }
 
         #endregion

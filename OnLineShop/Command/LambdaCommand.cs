@@ -13,10 +13,10 @@ namespace OnLineShop.Command
         private Func<object, bool> canExecute;
 
 
-        public LambdaCommand(Action<object> execute, Func<object, bool> canExecuted = null)
+        public LambdaCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecuted;
+            this.canExecute = canExecute;
         }
         public override bool CanExecute(object parameter)
         {

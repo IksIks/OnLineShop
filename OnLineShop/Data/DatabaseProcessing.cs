@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OnLineShop.Data
 {
@@ -16,17 +17,17 @@ namespace OnLineShop.Data
         private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
-        private DataTable ClientsDataTable = new DataTable();
+        public DataTable ClientsDataTable = new DataTable();
         private DataTable ProductDataTable = new DataTable();
 
         public Func<string, Task<DataTable>> FillClientsDataTable;
         public Func<string, Task<DataTable>> FillProductDataTable;
 
 
-        private SqlDataAdapter SqlDataAdapterClientDB;
+        public SqlDataAdapter SqlDataAdapterClientDB;
         private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
 
-        public event Action Test;
+        public static event Action<Customer> Test;
 
         private string sqlRequest;
         
@@ -42,7 +43,7 @@ namespace OnLineShop.Data
                 IntegratedSecurity = true,
                 Pooling = true
             };
-            
+
             connectionStringProductDB = new NpgsqlConnectionStringBuilder()
             {
                 Host= "localhost",
@@ -70,7 +71,7 @@ namespace OnLineShop.Data
         
         private async Task<DataTable> FillDataTable(string Db)
         {
-            if (Db == "0")
+            if (Db == "ClentsDB")
             {
                 await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
                 return ClientsDataTable;
@@ -88,7 +89,7 @@ namespace OnLineShop.Data
         {
             try
             {
-                if (s == "0")
+                if (s == "ClentsDB")
                 {
                     await Task.Run(() => connectionClientsDB.OpenAsync());
                     FillClientsDataTable = FillDataTable;
@@ -108,24 +109,35 @@ namespace OnLineShop.Data
             }
             finally
             {
-                if (s == "0")
+                if (s == "ClentsDB")
                     await Task.Run( () => connectionClientsDB.Close());
                 await Task.Run(() => connectionProductDB.Close());
             }
         }
 
-        public void InsertRequest()
+        public void InsertRequest(Customer test)
         {
-            sqlRequest = @"INSER INTO ClientsDB (Surname, Name, Patronymic, PhoneNumber, Email)" +
-                                "VALUES(@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
-                                "SET @ID @@IDENTITY";
-            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 0, "ID").Direction= ParameterDirection.Output;
+            DataRow row = ClientsDataTable.NewRow();
+            row["Surname"] = test.Surname;
+            row["Name"] = test.Name;
+            row["Patronymic"] = test.Patronymic;
+            row["PhoneNumber"] = test.PhoneNumber;
+            row["Email"] = test.Email;
+            ClientsDataTable.Rows.Add(row);
+
+            sqlRequest = @"INSERT INTO Clients (Surname, Name, Patronymic, PhoneNumber, Email)" +
+                                "VALUES (@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
+                                "SET @ID = @@IDENTITY;";
+            SqlDataAdapterClientDB.InsertCommand = new SqlCommand(sqlRequest, connectionClientsDB);
+            connectionClientsDB.Open();
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID").Direction= ParameterDirection.Output;
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
-            
+            SqlDataAdapterClientDB.Update(ClientsDataTable);
+            connectionClientsDB.Close();
         }
 
         public void AddRow(Customer customer)
