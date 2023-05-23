@@ -17,20 +17,17 @@ namespace OnLineShop.Data
         private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
-        public DataTable ClientsDataTable = new DataTable();
+        private DataTable ClientsDataTable = new DataTable();
         private DataTable ProductDataTable = new DataTable();
+
+        private SqlDataAdapter SqlDataAdapterClientDB;
+        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
 
         public Func<string, Task<DataTable>> FillClientsDataTable;
         public Func<string, Task<DataTable>> FillProductDataTable;
 
-
-        public SqlDataAdapter SqlDataAdapterClientDB;
-        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
-
-        public static event Action<Customer> Test;
-
         private string sqlRequest;
-        
+
 
 
         public DatabaseProcessing()
@@ -115,21 +112,21 @@ namespace OnLineShop.Data
             }
         }
 
-        public void InsertRequest(Customer test)
+        public void InsertNewCustomerRequest(Customer newCustomer)
         {
             DataRow row = ClientsDataTable.NewRow();
-            row["Surname"] = test.Surname;
-            row["Name"] = test.Name;
-            row["Patronymic"] = test.Patronymic;
-            row["PhoneNumber"] = test.PhoneNumber;
-            row["Email"] = test.Email;
+            row["Surname"] = newCustomer.Surname;
+            row["Name"] = newCustomer.Name;
+            row["Patronymic"] = newCustomer.Patronymic;
+            row["PhoneNumber"] = newCustomer.PhoneNumber;
+            row["Email"] = newCustomer.Email;
             ClientsDataTable.Rows.Add(row);
 
             sqlRequest = @"INSERT INTO Clients (Surname, Name, Patronymic, PhoneNumber, Email)" +
                                 "VALUES (@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
                                 "SET @ID = @@IDENTITY;";
             SqlDataAdapterClientDB.InsertCommand = new SqlCommand(sqlRequest, connectionClientsDB);
-            connectionClientsDB.Open();
+            
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID").Direction= ParameterDirection.Output;
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
@@ -137,7 +134,6 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
-            connectionClientsDB.Close();
         }
 
         public void AddRow(Customer customer)

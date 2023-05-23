@@ -86,36 +86,14 @@ namespace OnLineShop.ViewModel
         private bool CanAddClientCommandExecute(object parametr) => true;
         private void OnAddClientCommandExecuted(object parameter)
         {
-            AddClientViewModel.AddNewCustomer += AddClientViewModel_TestEvent;
-            //AddClientViewModel.AddNewCustomer += dataBaseProcessing.InsertRequest;
+            AddClientViewModel.AddNewCustomer += dataBaseProcessing.InsertNewCustomerRequest;
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
-            AddClientViewModel.AddNewCustomer -= AddClientViewModel_TestEvent;
-        }
+            AddClientViewModel.AddNewCustomer -= dataBaseProcessing.InsertNewCustomerRequest;
 
-        private void AddClientViewModel_TestEvent(Customer test)
-        {
-            DataRow row = ClientsDataGridItemTable.NewRow();
-            row["Surname"] = test.Surname;
-            row["Name"] = test.Name;
-            row["Patronymic"] = test.Patronymic;
-            row["PhoneNumber"] = test.PhoneNumber;
-            row["Email"] = test.Email;
-            ClientsDataGridItemTable.Rows.Add(row);
         }
-
         #endregion
 
         #endregion
-
-        public void AddRow(Customer customer)
-        {
-            //if (customer == null)
-            //DataRow row = ClientsDataGridItemTable.NewRow();
-            //row["Surname"] = customer.Surname;
-            
-        }
-
-
     }
 }

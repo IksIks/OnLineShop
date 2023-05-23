@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Добавить"  Style="{StaticResource ButtonConfirm}" Command="{Binding AddButtonCommand}"/>
-            <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}"/>
+            <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}" Command="{Binding CancelButtonCommand}"/>
         </Grid>
         
     </StackPanel>
