@@ -3,7 +3,9 @@ using OnLineShop.Data;
 using OnLineShop.Model;
 using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
+using System;
 using System.Data;
+using System.Data.Common;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
@@ -15,10 +17,14 @@ namespace OnLineShop.ViewModel
         private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
-
+        
         private DataTable clientsDataGridItemTable;
         private DataTable productDataGridItemTable;
         
+        public static event Action<DataRow> ChangeCustomer;
+
+        
+
         public DataTable ProductDataGridItemTable
         {
             get => productDataGridItemTable;
@@ -51,8 +57,9 @@ namespace OnLineShop.ViewModel
             dataBaseProcessing= new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
+            UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
             
-    }
+        }
 
         #region Команды
 
@@ -94,6 +101,24 @@ namespace OnLineShop.ViewModel
         }
         #endregion
 
+        public ICommand UpdateCustomerDataCommand { get; }
+        private bool CanUpdateCustomerDataCommandExecute(object parameter)
+        {
+            return true;
+        }
+       
+
+        private void OnUpdateCustomerDataCommandExecuted(object parameter)
+        {
+
+            var row = (parameter as DataRowView).Row;
+            ChangeCustomer changeCustomerWindow = new ChangeCustomer();
+            ChangeCustomer?.Invoke(row);
+            changeCustomerWindow.ShowDialog();
+
+        }
         #endregion
+
+        
     }
 }
