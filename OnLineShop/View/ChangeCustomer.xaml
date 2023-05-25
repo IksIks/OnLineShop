@@ -22,12 +22,13 @@
         <TextBox Text="{Binding NewCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Label Content="EMail" FontWeight="Bold" FontSize="14"/>
         <TextBox Text="{Binding NewCustomer.Email, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
+        <TextBlock Text="{Binding NewCustomer.Surname, UpdateSourceTrigger=PropertyChanged}" Background="Aqua"/>
         <Grid Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Сохранить" Style="{StaticResource ButtonConfirm}" Command="{Binding AddButtonCommand}"/>
+            <Button Grid.Column="0" Content="Сохранить" Style="{StaticResource ButtonConfirm}" Command="{Binding TestCommand}"/>
             <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}" Command="{Binding CancelButtonCommand}"/>
         </Grid>
 
