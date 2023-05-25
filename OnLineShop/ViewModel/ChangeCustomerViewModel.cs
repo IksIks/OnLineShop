@@ -10,8 +10,7 @@ namespace OnLineShop.ViewModel
 {
     internal class ChangeCustomerViewModel : ViewModelBase
     {
-        private string Test { get; set; }
-
+        
         private Customer newCustomer;
         public Customer NewCustomer
         {
@@ -28,8 +27,7 @@ namespace OnLineShop.ViewModel
 
         private void MainWindowViewModel_ChangeCustomer(DataRow row)
         {
-
-            Test = row["Surname"].ToString();
+            NewCustomer.Surname = row["Surname"].ToString();
         }
 
 
@@ -38,7 +36,7 @@ namespace OnLineShop.ViewModel
         private bool CanTestCommandExecute(object parameter) => true;
         private void OnTestCommandExecuted(object parameter)
         {
-            NewCustomer.Surname = Test;
+            MessageBox.Show(NewCustomer.Surname);
         }
     }
 }

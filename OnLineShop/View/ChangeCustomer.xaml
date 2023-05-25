@@ -22,7 +22,7 @@
         <TextBox Text="{Binding NewCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
         <Label Content="EMail" FontWeight="Bold" FontSize="14"/>
         <TextBox Text="{Binding NewCustomer.Email, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
-        <TextBlock Text="{Binding NewCustomer.Surname, UpdateSourceTrigger=PropertyChanged}" Background="Aqua"/>
+        <!--<TextBlock Text="{Binding NewCustomer.Surname, UpdateSourceTrigger=PropertyChanged}" Background="Aqua"/>-->
         <Grid Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
