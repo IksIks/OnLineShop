@@ -149,6 +149,7 @@
     <Compile Include="Command\LambdaCommand.cs" />
     <Compile Include="Data\DatabaseProcessing.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\INPC\BaseINPC.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\ChangeCustomerViewModel.cs" />

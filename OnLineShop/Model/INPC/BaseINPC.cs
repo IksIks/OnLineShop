@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace OnLineShop.ViewModel.Base
+namespace OnLineShop.Model.INPC
 {
-    internal class ViewModelBase : INotifyPropertyChanged
+    internal class BaseINPC : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -14,7 +14,7 @@ namespace OnLineShop.ViewModel.Base
 
         protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            if(Equals(field, value)) return false;
+            if (Equals(field, value)) return false;
             field = value;
             OnPropertyChanged(propertyName);
             return true;

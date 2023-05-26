@@ -1,21 +1,48 @@
-﻿using OnLineShop.ViewModel.Base;
-using System.Data;
+﻿using OnLineShop.Model.INPC;
 
 namespace OnLineShop.Model
 {
-    internal class Customer : ViewModelBase
+    internal class Customer : BaseINPC
     {
-        public int ID { get; set; }
+        private int id;
         private string surname;
+        private string name;
+        private string patronymic;
+        private long phoneNumber;
+        private string email;
+
+
+
+        public int ID
+        {
+            get => id;
+            set => Set(ref id, value);
+        }
         public string Surname
-        { get => surname;
+        { 
+            get => surname;
           set => Set(ref surname, value);
         }
-        public string Name { get; set; }
-        public string Patronymic { get; set; }
-        public long PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string Name
+        {
+            get => name;
+            set => Set(ref name, value);
+        }
+        public string Patronymic
+        {
+            get => patronymic;
+            set => Set(ref patronymic, value);
+        }
+        public long PhoneNumber
+        {
+            get => phoneNumber;
+            set => Set(ref phoneNumber, value);
+        }
+        public string Email
+        {
+            get => email;
+            set => Set(ref email, value);
+        }
 
-       
     }
 }
