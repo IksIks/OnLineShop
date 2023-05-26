@@ -8,7 +8,7 @@ namespace OnLineShop.Model
         private string surname;
         private string name;
         private string patronymic;
-        private long phoneNumber;
+        private string phoneNumber;
         private string email;
 
 
@@ -33,10 +33,13 @@ namespace OnLineShop.Model
             get => patronymic;
             set => Set(ref patronymic, value);
         }
-        public long PhoneNumber
+        public string PhoneNumber
         {
             get => phoneNumber;
-            set => Set(ref phoneNumber, value);
+            set
+            {
+                Set(ref phoneNumber, value);
+            }
         }
         public string Email
         {

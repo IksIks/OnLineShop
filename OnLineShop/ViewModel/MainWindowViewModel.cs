@@ -19,7 +19,7 @@ namespace OnLineShop.ViewModel
         private DataTable clientsDataGridItemTable;
         private DataTable productDataGridItemTable;
         
-        public static event Action<DataRow> ChangeCustomerIn;
+        public static event Action<DataRow> ChangeCustomerEvent;
 
         
 
@@ -108,15 +108,16 @@ namespace OnLineShop.ViewModel
 
         private void OnUpdateCustomerDataCommandExecuted(object parameter)
         {
-
+            
             var row = (parameter as DataRowView).Row;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
-            ChangeCustomerIn?.Invoke(row);
+            ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
+            ChangeCustomerEvent?.Invoke(row);
             changeCustomerWindow.ShowDialog();
-
+            ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
         }
         #endregion
 
-        
+
     }
 }

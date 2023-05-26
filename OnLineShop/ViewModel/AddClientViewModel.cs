@@ -26,7 +26,6 @@ namespace OnLineShop.ViewModel
         }
 
         #region Команда добавление пользователя
-
         public ICommand AddButtonCommand { get; }
         private bool CanAddButtonCommandExecute(object parameter)
         {
@@ -36,7 +35,6 @@ namespace OnLineShop.ViewModel
                     || String.IsNullOrEmpty(NewCustomer.Email))
                 return false;
             return true;
-
         }
         private void OnAddButtonCommandExecited(object parameter)
         {
@@ -46,7 +44,6 @@ namespace OnLineShop.ViewModel
         #endregion
 
         #region Команда отмены добавления пользователя
-
         public ICommand CancelButtonCommand { get; }
         private bool CanCancelButtonCommandExecute(object parameter) => true;
         private void OnCancelButtonCommandExecuted(object parameter)

@@ -136,13 +136,34 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
 
-        public void AddRow(Customer customer)
+        public void UpdateCustomerRequest(Customer customer)
         {
-            //if (customer == null)
-            DataRow row = ClientsDataTable.NewRow();
-            row["Фамилия"] = customer.Surname;
-            ClientsDataTable.Rows.Add(row);
-            SqlDataAdapterClientDB.Fill(ClientsDataTable);
+            foreach (DataRow row in ClientsDataTable.Rows)
+            {
+                if(Equals(customer.ID, row["ID"]))
+                {
+                    row["Surname"] = customer.Surname;
+                    row["Name"] = customer.Name;
+                    row["Patronymic"] = customer.Patronymic;
+                    row["PhoneNumber"] = customer.PhoneNumber;
+                    row["Email"] = customer.Email;
+                }
+            }
+
+            sqlRequest = @"UPDATE Clients 
+                         SET Surname = @Surname, Name = @Name, Patronymic = @Patronymic, PhoneNumber = @PhoneNumber, Email = @Email 
+                         WHERE ID = @ID";
+            SqlDataAdapterClientDB.UpdateCommand = new SqlCommand(sqlRequest, connectionClientsDB);
+
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add($"@ID", SqlDbType.Int, 4, "ID").SourceVersion = DataRowVersion.Original;
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
+            SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
+
+
     }
 }
