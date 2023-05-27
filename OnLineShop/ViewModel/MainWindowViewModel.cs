@@ -4,6 +4,8 @@ using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
 using System.Data;
+using System.Data.Common;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
@@ -11,7 +13,6 @@ namespace OnLineShop.ViewModel
     internal class MainWindowViewModel : ViewModelBase
     {
         private string testConntection;
-        
         private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
@@ -20,15 +21,13 @@ namespace OnLineShop.ViewModel
         private DataTable productDataGridItemTable;
         
         public static event Action<DataRow> ChangeCustomerEvent;
-
-        
+        public string TestWin { get; set; }
 
         public DataTable ProductDataGridItemTable
         {
             get => productDataGridItemTable;
             set => Set(ref productDataGridItemTable, value);
         }
-
         public DataTable ClientsDataGridItemTable
         {
             get => clientsDataGridItemTable;
@@ -57,38 +56,46 @@ namespace OnLineShop.ViewModel
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
             UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
+            CustomerProductCommand = new LambdaCommand(OnCustomerProductCommandExecuted, CanCustomerProductCommandExecute);
         }
 
         #region Команды
 
         #region Команда загрузки базы
 
-            public ICommand ConnectClientDBCommand { get; }
-            private bool CanConnectClientDBCommandExecute(object parameter) => true;
-            private async void OnConnectClientDBCommandExecuted(object parameter)
+        public ICommand ConnectClientDBCommand { get; }
+        private bool CanConnectClientDBCommandExecute(object parameter)
+        {
+            return (clientsDataGridItemTable is null || productDataGridItemTable is null);
+
+        }
+        private async void OnConnectClientDBCommandExecuted(object parameter)
+        {
+            dbChoise= parameter as string;
+            string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
+            if (Equals(answer, "Open"))
             {
-                dbChoise= parameter as string;
-                string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
-                if (Equals(answer, "Open"))
+                if (dbChoise == "ClentsDB")
                 {
-                    if (dbChoise == "ClentsDB")
-                    {
-                        ClienDBColorStatus = "Green";
-                        ClientsDataGridItemTable = await dataBaseProcessing.FillClientsDataTable(dbChoise);
-                    }
-                    else
-                    {
-                        ProductDBColorStatus = "Green";
-                        ProductDataGridItemTable = await dataBaseProcessing.FillProductDataTable(dbChoise);
-                    }
+                    ClienDBColorStatus = "Green";
+                    ClientsDataGridItemTable = await dataBaseProcessing.FillClientsDataTable(dbChoise);
+                }
+                else
+                {
+                    ProductDBColorStatus = "Green";
+                    ProductDataGridItemTable = await dataBaseProcessing.FillProductDataTable(dbChoise);
                 }
             }
+        }
 
         #endregion
 
         #region Команда добавления клиента
         public ICommand AddClientCommand { get; }
-        private bool CanAddClientCommandExecute(object parametr) => true;
+        private bool CanAddClientCommandExecute(object parametr)
+        {
+            return (clientsDataGridItemTable != null);
+        }
         private void OnAddClientCommandExecuted(object parameter)
         {
             AddClientViewModel.AddNewCustomer += dataBaseProcessing.InsertNewCustomerRequest;
@@ -102,30 +109,42 @@ namespace OnLineShop.ViewModel
         public ICommand UpdateCustomerDataCommand { get; }
         private bool CanUpdateCustomerDataCommandExecute(object parameter)
         {
-            return true;
+            return (parameter is DataRowView);
         }
         private void OnUpdateCustomerDataCommandExecuted(object parameter)
         {
-
             var row = (parameter as DataRowView).Row;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
             ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
             ChangeCustomerEvent?.Invoke(row);
             changeCustomerWindow.ShowDialog();
             ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
-        } 
+        }
         #endregion
 
+        #region Команда удаления клиента
         public ICommand RemoveClientCommand { get; }
-        private bool CanRemoveClientCommandExecute (object parametr)
+        private bool CanRemoveClientCommandExecute(object parameter)
         {
-            return true;
+            return (parameter is DataRowView);
         }
         private void OnRemoveClientCommandExecuted(Object parameter)
         {
-            dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
-        }
+            if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
+            MessageBox.Show("Слабак");
+        } 
+        #endregion
 
+        public ICommand CustomerProductCommand { get; }
+        private bool CanCustomerProductCommandExecute(object parameter)
+        {
+            return (parameter is DataRowView);
+        }
+        private void OnCustomerProductCommandExecuted(object parameter)
+        {
+
+        }
 
         #endregion
 

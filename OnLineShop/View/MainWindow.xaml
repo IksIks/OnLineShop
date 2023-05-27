@@ -61,13 +61,14 @@
             <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
                 <UniformGrid.Resources>
                 </UniformGrid.Resources>
+                <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding CustomerProductCommand}"
+                        CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
                 <Button Style="{StaticResource NewButtonStyle}" FontSize="13" Command="{Binding UpdateCustomerDataCommand}"
                     CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}">
                     <Button.Content>
                         <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
                     </Button.Content>
                 </Button>
-                <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13"/>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"
                         Command="{Binding AddClientCommand}"/>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Удаление клиента" FontSize="13"
@@ -75,7 +76,7 @@
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
                 <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"
-                          SelectionMode="Single">
+                          SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="LightBlue" Offset="0"/>
@@ -83,12 +84,12 @@
                         </LinearGradientBrush>
                     </DataGrid.Background>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"/>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
-                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

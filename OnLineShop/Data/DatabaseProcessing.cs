@@ -26,8 +26,6 @@ namespace OnLineShop.Data
 
         private string sqlRequest;
 
-
-
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
@@ -62,8 +60,6 @@ namespace OnLineShop.Data
             
         }
 
-        
-        
         private async Task<DataTable> FillDataTable(string Db)
         {
             if (Db == "ClentsDB")
@@ -110,6 +106,8 @@ namespace OnLineShop.Data
             }
         }
 
+        #region Запросы к БД
+
         public void InsertNewCustomerRequest(Customer newCustomer)
         {
             DataRow row = ClientsDataTable.NewRow();
@@ -124,12 +122,12 @@ namespace OnLineShop.Data
                                 "VALUES (@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
                                 "SET @ID = @@IDENTITY;";
             SqlDataAdapterClientDB.InsertCommand = new SqlCommand(sqlRequest, connectionClientsDB);
-            
-            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID").Direction= ParameterDirection.Output;
+
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID").Direction = ParameterDirection.Output;
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
-            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
+            SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.NVarChar, 20, "PhoneNumber");
             SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
@@ -138,7 +136,7 @@ namespace OnLineShop.Data
         {
             foreach (DataRow row in ClientsDataTable.Rows)
             {
-                if(Equals(customer.ID, row["ID"]))
+                if (Equals(customer.ID, row["ID"]))
                 {
                     row["Surname"] = customer.Surname;
                     row["Name"] = customer.Name;
@@ -157,7 +155,7 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
-            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
+            SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@PhoneNumber", SqlDbType.NVarChar, 20, "PhoneNumber");
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
@@ -169,7 +167,8 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.DeleteCommand = new SqlCommand(sqlRequest, connectionClientsDB);
             SqlDataAdapterClientDB.DeleteCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
-        }
+        } 
+        #endregion
 
 
     }

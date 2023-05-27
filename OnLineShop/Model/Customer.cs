@@ -38,6 +38,8 @@ namespace OnLineShop.Model
             get => phoneNumber;
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    Set(ref phoneNumber, null);
                 Set(ref phoneNumber, value);
             }
         }
