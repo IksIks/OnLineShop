@@ -3,10 +3,8 @@ using OnLineShop.Model;
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OnLineShop.Data
 {
@@ -161,6 +159,15 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@PhoneNumber", SqlDbType.BigInt, 11, "PhoneNumber");
             SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
+            SqlDataAdapterClientDB.Update(ClientsDataTable);
+        }
+
+        public void RemoveCustomerRequest(DataRowView row)
+        {
+            row.Row.Delete();
+            sqlRequest = "DELETE FROM Clients WHERE ID = @ID";
+            SqlDataAdapterClientDB.DeleteCommand = new SqlCommand(sqlRequest, connectionClientsDB);
+            SqlDataAdapterClientDB.DeleteCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
 

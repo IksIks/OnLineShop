@@ -70,6 +70,8 @@
                 <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13"/>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"
                         Command="{Binding AddClientCommand}"/>
+                <Button Style="{StaticResource NewButtonStyle}" Content="Удаление клиента" FontSize="13"
+                        Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
                 <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"

@@ -56,7 +56,7 @@ namespace OnLineShop.ViewModel
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
             UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
-            
+            RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
         }
 
         #region Команды
@@ -95,27 +95,38 @@ namespace OnLineShop.ViewModel
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
             AddClientViewModel.AddNewCustomer -= dataBaseProcessing.InsertNewCustomerRequest;
-
         }
         #endregion
 
+        #region Команда обновления данных о клиенте
         public ICommand UpdateCustomerDataCommand { get; }
         private bool CanUpdateCustomerDataCommandExecute(object parameter)
         {
             return true;
         }
-       
-
         private void OnUpdateCustomerDataCommandExecuted(object parameter)
         {
-            
+
             var row = (parameter as DataRowView).Row;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
             ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
             ChangeCustomerEvent?.Invoke(row);
             changeCustomerWindow.ShowDialog();
             ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
+        } 
+        #endregion
+
+        public ICommand RemoveClientCommand { get; }
+        private bool CanRemoveClientCommandExecute (object parametr)
+        {
+            return true;
         }
+        private void OnRemoveClientCommandExecuted(Object parameter)
+        {
+            dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
+        }
+
+
         #endregion
 
 
