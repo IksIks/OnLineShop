@@ -21,8 +21,8 @@ namespace OnLineShop.ViewModel
         private DataTable productDataGridItemTable;
         
         public static event Action<DataRow> ChangeCustomerEvent;
-        public string TestWin { get; set; }
-
+        public static event Action<DataTable> ViewProductCustomerTableEvent;
+       
         public DataTable ProductDataGridItemTable
         {
             get => productDataGridItemTable;
@@ -143,7 +143,9 @@ namespace OnLineShop.ViewModel
         }
         private void OnCustomerProductCommandExecuted(object parameter)
         {
-
+            CustomerProductView producWindow = new CustomerProductView();
+            ViewProductCustomerTableEvent?.Invoke(ProductDataGridItemTable);
+            producWindow.ShowDialog();
         }
 
         #endregion
