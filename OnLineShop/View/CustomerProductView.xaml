@@ -13,7 +13,7 @@
     </Window.DataContext>
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="300*"/>
         </Grid.ColumnDefinitions>
         <!--<UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
@@ -32,18 +32,32 @@
         </UniformGrid>-->
         <GroupBox Grid.Column="1">
             <DataGrid x:Name="DataGrid" ItemsSource="{Binding ProductCustomerDBGrid}" AutoGenerateColumns="False" FrozenColumnCount="6"
-                          SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
+                          SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" ColumnWidth="*"
+                          GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray" CanUserResizeRows="False" CanUserResizeColumns="False">
                 <DataGrid.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <GradientStop Color="LightBlue" Offset="0"/>
                         <GradientStop Color="SlateGray" Offset="1"/>
                     </LinearGradientBrush>
                 </DataGrid.Background>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell" x:Key="StyleCell">
+                        <Setter Property="Background" Value="Beige"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Olive"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="DataGridColumnHeader" x:Key="StyleHeader">
+                        <Setter Property="Background" Value="BurlyWood"/>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Код продукта" Binding="{Binding ProductCode}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                    <DataGridTextColumn Header="Код продукта" Binding="{Binding ProductCode}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

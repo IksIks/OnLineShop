@@ -158,7 +158,7 @@ namespace OnLineShop.ViewModel
         private bool CanAboutProgrammCommandExecute(object parameter) => true;
         private void OnAboutProgrammCommandExecuted(object parameter)
         {
-            MessageBox.Show("Создано by IKS. Отдельно спасибо за терпение моей жене, сыну и коту. " +
+            MessageBox.Show("Created by IKS. Отдельно спасибо за терпение моей жене, сыну и коту. " +
                 "А так же большой респект видео хостингу YouTube и отдельным сайтам где я искал информацию. " +
                 "Если Вам понравилась программа - ставьте лайки (кнопку я не делал, да и не буду), " +
                 "если не понравилась - можете жаловаться в ООН");

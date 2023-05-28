@@ -73,20 +73,35 @@
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
                 <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"
-                          SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
+                          SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" ColumnWidth="*"
+                          GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray"
+                          CanUserResizeRows="False" CanUserResizeColumns="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="LightBlue" Offset="0"/>
                             <GradientStop Color="SlateGray" Offset="1"/>
                         </LinearGradientBrush>
                     </DataGrid.Background>
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridCell" x:Key="StyleCell">
+                            <Setter Property="Background" Value="Beige"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Olive"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="DataGridColumnHeader" x:Key="StyleHeader">
+                            <Setter Property="Background" Value="BurlyWood"/>
+                        </Style>                        
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
