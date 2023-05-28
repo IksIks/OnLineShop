@@ -57,6 +57,7 @@ namespace OnLineShop.ViewModel
             UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
             CustomerProductCommand = new LambdaCommand(OnCustomerProductCommandExecuted, CanCustomerProductCommandExecute);
+            AboutProgrammCommand = new LambdaCommand(OnAboutProgrammCommandExecuted, CanAboutProgrammCommandExecute);
         }
 
         #region Команды
@@ -133,13 +134,14 @@ namespace OnLineShop.ViewModel
             if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
             else MessageBox.Show("Слабак :-))))");
-        } 
+        }
         #endregion
 
+        #region Команда просмотра покупок
         public ICommand CustomerProductCommand { get; }
         private bool CanCustomerProductCommandExecute(object parameter)
         {
-            return (parameter is DataRowView);
+            return (parameter is DataRowView) && ProductDataGridItemTable != null;
         }
         private async void OnCustomerProductCommandExecuted(object parameter)
         {
@@ -149,6 +151,19 @@ namespace OnLineShop.ViewModel
             ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
+        #endregion
+
+        #region Команда "О программе"
+        public ICommand AboutProgrammCommand { get; }
+        private bool CanAboutProgrammCommandExecute(object parameter) => true;
+        private void OnAboutProgrammCommandExecuted(object parameter)
+        {
+            MessageBox.Show("Создано by IKS. Отдельно спасибо за терпение моей жене, сыну и коту. " +
+                "А так же большой респект видео хостингу YouTube и отдельным сайтам где я искал информацию. " +
+                "Если Вам понравилась программа - ставьте лайки (кнопку я не делал, да и не буду), " +
+                "если не понравилась - можете жаловаться в ООН");
+        } 
+        #endregion
 
         #endregion
 

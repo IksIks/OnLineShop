@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnLineShop" mc:Ignorable="d"
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -15,7 +15,7 @@
                 <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="ClentsDB"/>
                 <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="ProductDB"/>
             </MenuItem>
-            <MenuItem Header="О программе"/>
+            <MenuItem Header="О программе" Command="{Binding AboutProgrammCommand}"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Background="Beige" Margin="3,0,0,3">
             <StatusBar.Resources>
@@ -49,9 +49,6 @@
                     </StackPanel>
                 </StatusBarItem>
             </Border>
-            <!--<StatusBarItem>
-                <TextBlock Text="{Binding TestConntection}" Height="22"/>
-            </StatusBarItem>-->
         </StatusBar>
         <Grid ShowGridLines="False">
             <Grid.ColumnDefinitions>

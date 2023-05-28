@@ -20,7 +20,6 @@ namespace OnLineShop.ViewModel
 
         private void MainWindowViewModel_ViewProductCustomerTableEvent(DataTable obj)
         {
-            productCustomerDBGrid = new DataTable();
             ProductCustomerDBGrid = obj;
         }
     }

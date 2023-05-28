@@ -16,7 +16,7 @@ namespace OnLineShop.Data
         private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
         private DataTable ClientsDataTable = new DataTable();
-        private DataTable ProductDataTable = new DataTable();
+        private DataTable ProductDataTable;
 
         private SqlDataAdapter SqlDataAdapterClientDB;
         private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;

@@ -16,7 +16,7 @@
             <ColumnDefinition Width="150*"/>
             <ColumnDefinition Width="300*"/>
         </Grid.ColumnDefinitions>
-        <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
+        <!--<UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
             <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding CustomerProductCommand}"
                         CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
             <Button Style="{StaticResource NewButtonStyle}" FontSize="13" Command="{Binding UpdateCustomerDataCommand}"
@@ -29,8 +29,8 @@
                         Command="{Binding AddClientCommand}"/>
             <Button Style="{StaticResource NewButtonStyle}" Content="Удаление клиента" FontSize="13"
                         Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
-        </UniformGrid>
-        <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
+        </UniformGrid>-->
+        <GroupBox Grid.Column="1">
             <DataGrid x:Name="DataGrid" ItemsSource="{Binding ProductCustomerDBGrid}" AutoGenerateColumns="False" FrozenColumnCount="6"
                           SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Background>
