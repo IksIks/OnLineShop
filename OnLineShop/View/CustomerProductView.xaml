@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnLineShop.View"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:OnLineShop.View"
+        xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         Title="Покупки клиента" WindowStartupLocation="CenterScreen" Background="Beige"
         MaxHeight="350" MaxWidth="550" MinHeight="350" MinWidth="550">
     <Window.DataContext>
-        <vm:CustomerProductView/>
+        <vm:CustomerProductViewModel/>
     </Window.DataContext>
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="89*"/>
-            <ColumnDefinition Width="311*"/>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="300*"/>
         </Grid.ColumnDefinitions>
         <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
             <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding CustomerProductCommand}"
@@ -31,7 +31,7 @@
                         Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
         </UniformGrid>
         <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-            <DataGrid x:Name="DataGrid" ItemsSource="{Binding ProductDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding ProductCustomerDBGrid}" AutoGenerateColumns="False" FrozenColumnCount="6"
                           SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">

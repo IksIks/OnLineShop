@@ -69,7 +69,7 @@ namespace OnLineShop.Data
             }
             else
             {
-                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable));
+                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
                 return ProductDataTable;
             }
         }
@@ -167,7 +167,16 @@ namespace OnLineShop.Data
             SqlDataAdapterClientDB.DeleteCommand = new SqlCommand(sqlRequest, connectionClientsDB);
             SqlDataAdapterClientDB.DeleteCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID");
             SqlDataAdapterClientDB.Update(ClientsDataTable);
-        } 
+        }
+
+        public async Task<DataTable> CustomerProductRequest(string email)
+        {
+            sqlRequest = $"SELECT * FROM public.\"ShoppingCart\" WHERE \"Email\" = '{email}'";
+            NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
+            return await FillDataTable(" ");
+        }
+
+
         #endregion
 
 

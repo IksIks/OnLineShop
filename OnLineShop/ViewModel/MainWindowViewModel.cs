@@ -132,7 +132,7 @@ namespace OnLineShop.ViewModel
         {
             if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
-            MessageBox.Show("Слабак");
+            else MessageBox.Show("Слабак :-))))");
         } 
         #endregion
 
@@ -141,10 +141,12 @@ namespace OnLineShop.ViewModel
         {
             return (parameter is DataRowView);
         }
-        private void OnCustomerProductCommandExecuted(object parameter)
+        private async void OnCustomerProductCommandExecuted(object parameter)
         {
+            string email = (parameter as DataRowView).Row[5].ToString();
             CustomerProductView producWindow = new CustomerProductView();
-            ViewProductCustomerTableEvent?.Invoke(ProductDataGridItemTable);
+
+            ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
 
