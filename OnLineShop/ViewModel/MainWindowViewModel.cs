@@ -4,7 +4,6 @@ using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
 using System.Data;
-using System.Data.Common;
 using System.Windows;
 using System.Windows.Input;
 
