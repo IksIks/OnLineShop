@@ -31,7 +31,7 @@ namespace OnLineShop.Data
             connectionStringClientsDB = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
-                //AttachDBFilename = @"C:\DROPBOX\IKS\C# ПРОЕКТЫ\ПРОЕКТЫ\ONLINESHOP\ONLINESHOP\DB\CLIENTSDB.MDF",
+                AttachDBFilename = @"C:\YandexDisk\IKS\C#_проекты\Проекты\OnLineShop\OnLineShop\DB\CLIENTSDB.MDF",
                 InitialCatalog = "ClientsDB",
                 IntegratedSecurity = true,
                 Pooling = true
@@ -39,10 +39,10 @@ namespace OnLineShop.Data
 
             connectionStringProductDB = new NpgsqlConnectionStringBuilder()
             {
-                Host= "localhost",
+                Host = "localhost",
                 Database = "ProductDB",
                 Username = "postgres",
-                Password= "1"
+                Password = "1"
             };
 
             connectionClientsDB = new SqlConnection()
@@ -50,14 +50,13 @@ namespace OnLineShop.Data
                 ConnectionString = connectionStringClientsDB.ConnectionString
             };
 
-            connectionProductDB = new NpgsqlConnection()   
+            connectionProductDB = new NpgsqlConnection()
             {
                 ConnectionString = connectionStringProductDB.ConnectionString
             };
 
             SqlDataAdapterClientDB = new SqlDataAdapter("SELECT * FROM Clients", connectionClientsDB);
-            NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM public.\"ShoppingCart\"", connectionProductDB);
-            
+            NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
         }
 
         private async Task<DataTable> FillDataTable(string Db)
@@ -101,7 +100,7 @@ namespace OnLineShop.Data
             finally
             {
                 if (s == "ClentsDB")
-                    await Task.Run( () => connectionClientsDB.Close());
+                    await Task.Run(() => connectionClientsDB.Close());
                 await Task.Run(() => connectionProductDB.Close());
             }
         }
@@ -146,8 +145,8 @@ namespace OnLineShop.Data
                 }
             }
 
-            sqlRequest = @"UPDATE Clients 
-                         SET Surname = @Surname, Name = @Name, Patronymic = @Patronymic, PhoneNumber = @PhoneNumber, Email = @Email 
+            sqlRequest = @"UPDATE Clients
+                         SET Surname = @Surname, Name = @Name, Patronymic = @Patronymic, PhoneNumber = @PhoneNumber, Email = @Email
                          WHERE ID = @ID";
             SqlDataAdapterClientDB.UpdateCommand = new SqlCommand(sqlRequest, connectionClientsDB);
 
@@ -171,14 +170,11 @@ namespace OnLineShop.Data
 
         public async Task<DataTable> CustomerProductRequest(string email)
         {
-            sqlRequest = $"SELECT * FROM public.\"ShoppingCart\" WHERE \"Email\" = '{email}'";
+            sqlRequest = $"SELECT * FROM shoppingcart WHERE email = '{email}'";
             NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
             return await FillDataTable(" ");
         }
 
-
-        #endregion
-
-
+        #endregion Запросы к БД
     }
 }
