@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace OnLineShop.Model.INPC
 {
-    internal class BaseINPC : INotifyPropertyChanged
+    public class BaseINPC : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
