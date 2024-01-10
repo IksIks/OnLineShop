@@ -1,11 +1,14 @@
 ﻿using OnLineShop.Command;
 using OnLineShop.Data;
 using OnLineShop.DBContext;
+using OnLineShop.Model;
 using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
@@ -17,7 +20,7 @@ namespace OnLineShop.ViewModel
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
 
-        private DataTable clientsDataGridItemTable;
+        private List<Client> clientsDataGridItemTable;
         private DataTable productDataGridItemTable;
 
         public static event Action<DataRow> ChangeCustomerEvent;
@@ -30,7 +33,7 @@ namespace OnLineShop.ViewModel
             set => Set(ref productDataGridItemTable, value);
         }
 
-        public DataTable ClientsDataGridItemTable
+        public List<Client> ClientsDataGridItemTable
         {
             get => clientsDataGridItemTable;
             set => Set(ref clientsDataGridItemTable, value);
@@ -57,7 +60,7 @@ namespace OnLineShop.ViewModel
         public MainWindowViewModel()
         {
             dataBaseProcessing = new DatabaseProcessing();
-            ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
+            ConnectDBCommand = new LambdaCommand(OnConnectDBCommandExecuted, CanConnectDBCommandExecute);
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
             UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
@@ -69,23 +72,23 @@ namespace OnLineShop.ViewModel
 
         #region Команда загрузки базы
 
-        public ICommand ConnectClientDBCommand { get; }
+        public ICommand ConnectDBCommand { get; }
 
-        private bool CanConnectClientDBCommandExecute(object parameter)
+        private bool CanConnectDBCommandExecute(object parameter)
         {
             return (clientsDataGridItemTable is null || productDataGridItemTable is null);
         }
 
-        private async void OnConnectClientDBCommandExecuted(object parameter)
+        private async void OnConnectDBCommandExecuted(object parameter)
         {
             dbChoise = parameter as string;
-            string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
-            if (Equals(answer, "Open"))
+            bool answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
+            if (Equals(answer, "True"))
             {
                 if (dbChoise == "ClientsDB")
                 {
                     ClienDBColorStatus = "Green";
-                    ClientsDataGridItemTable = await dataBaseProcessing.FillClientsDataTable(dbChoise);
+                    ClientsDataGridItemTable = await dataBaseProcessing.FillDataTable(dbChoise);
                 }
                 else
                 {

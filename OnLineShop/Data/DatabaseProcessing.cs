@@ -1,10 +1,16 @@
 ﻿using Npgsql;
 using OnLineShop.DBContext;
+using OnLineShop.Model;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace OnLineShop.Data
 {
@@ -26,7 +32,8 @@ namespace OnLineShop.Data
 
         private string sqlRequest;
 
-        private ClientsDbContext ClientsDB = new();
+        private ClientsDbContext clientsDB = new();
+        private ProductDbContext productDB = new();
 
         public DatabaseProcessing()
         {
@@ -61,32 +68,17 @@ namespace OnLineShop.Data
             NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
         }
 
-        private async Task<DataTable> FillDataTable(string Db)
-        {
-            if (Db == "ClentsDB")
-            {
-                await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-                await Task.Run(() => ClientsDB.Clients.);
-                return ClientsDataTable;
-            }
-            else
-            {
-                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
-                return ProductDataTable;
-            }
-        }
-
         /// <summary>Запуск соединения с базой</summary>
         /// <returns>состояние соединения</returns>
-        public async Task<string> StartConnectionDBAsync(string s)
+        public async Task<bool> StartConnectionDBAsync(string s)
         {
             try
             {
-                if (s == "ClentsDB")
+                if (s == "ClientsDB")
                 {
-                    await Task.Run(() => connectionClientsDB.OpenAsync());
-                    FillClientsDataTable = FillDataTable;
-                    return connectionClientsDB.State.ToString();
+                    //await Task.Run(() => connectionClientsDB.OpenAsync());
+                    return await Task.Run(() => clientsDB.Database.CanConnectAsync());
+                    //FillClientsDataTable = FillDataTable;
                 }
                 else
                 {
@@ -105,6 +97,21 @@ namespace OnLineShop.Data
                 if (s == "ClentsDB")
                     await Task.Run(() => connectionClientsDB.Close());
                 await Task.Run(() => connectionProductDB.Close());
+            }
+        }
+
+        public async Task<List<Client>> FillDataTable(string Db)
+        {
+            if (Db == "ClientsDB")
+            {
+                //await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
+                return await Task.Run(() => clientsDB.Clients.);
+                //return ClientsDataTable;
+            }
+            else
+            {
+                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
+                //return ProductDataTable;
             }
         }
 
