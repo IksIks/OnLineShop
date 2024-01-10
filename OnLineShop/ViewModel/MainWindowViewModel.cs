@@ -1,5 +1,6 @@
 ﻿using OnLineShop.Command;
 using OnLineShop.Data;
+using OnLineShop.Model;
 using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
@@ -17,33 +18,38 @@ namespace OnLineShop.ViewModel
         private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
-        
-        private DataTable clientsDataGridItemTable;
-        private DataTable productDataGridItemTable;
-        
+
+        private IEnumerable<Client> clientsDataGridItemTable;
+        private IEnumerable<Client> productDataGridItemTable;
+
         public static event Action<DataRow> ChangeCustomerEvent;
+
         public static event Action<DataTable> ViewProductCustomerTableEvent;
-       
-        public DataTable ProductDataGridItemTable
+
+        public IEnumerable<Client> ProductDataGridItemTable
         {
             get => productDataGridItemTable;
             set => Set(ref productDataGridItemTable, value);
         }
-        public DataTable ClientsDataGridItemTable
+
+        public IEnumerable<Client> ClientsDataGridItemTable
         {
             get => clientsDataGridItemTable;
             set => Set(ref clientsDataGridItemTable, value);
         }
+
         public string TestConntection
         {
             get => testConntection;
             set => Set(ref testConntection, value);
         }
+
         public string ClienDBColorStatus
         {
             get => clienDBColorStatus;
             set => Set(ref clienDBColorStatus, value);
         }
+
         public string ProductDBColorStatus
         {
             get => productDBColorStatus;
@@ -52,13 +58,13 @@ namespace OnLineShop.ViewModel
 
         public MainWindowViewModel()
         {
-            dataBaseProcessing= new DatabaseProcessing();
+            dataBaseProcessing = new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
-            AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
-            UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
-            RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
-            CustomerProductCommand = new LambdaCommand(OnCustomerProductCommandExecuted, CanCustomerProductCommandExecute);
-            AboutProgrammCommand = new LambdaCommand(OnAboutProgrammCommandExecuted, CanAboutProgrammCommandExecute);
+            //AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
+            //UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
+            //RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
+            //CustomerProductCommand = new LambdaCommand(OnCustomerProductCommandExecuted, CanCustomerProductCommandExecute);
+            //AboutProgrammCommand = new LambdaCommand(OnAboutProgrammCommandExecuted, CanAboutProgrammCommandExecute);
         }
 
         #region Команды
@@ -66,21 +72,22 @@ namespace OnLineShop.ViewModel
         #region Команда загрузки базы
 
         public ICommand ConnectClientDBCommand { get; }
+
         private bool CanConnectClientDBCommandExecute(object parameter)
         {
             return (clientsDataGridItemTable is null || productDataGridItemTable is null);
-
         }
+
         private async void OnConnectClientDBCommandExecuted(object parameter)
         {
-            dbChoise= parameter as string;
-            string answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
-            if (Equals(answer, "Open"))
+            dbChoise = parameter as string;
+            bool answer = await dataBaseProcessing.StartConnectionDBAsync(dbChoise);
+            if (Equals(answer, true))
             {
-                if (dbChoise == "ClentsDB")
+                if (dbChoise == "ClientsDB")
                 {
                     ClienDBColorStatus = "Green";
-                    ClientsDataGridItemTable = await dataBaseProcessing.FillDataTable(dbChoise);
+                    ClientsDataGridItemTable = await dataBaseProcessing.FillProductDataTable(dbChoise);
                 }
                 else
                 {
@@ -90,9 +97,9 @@ namespace OnLineShop.ViewModel
             }
         }
 
-        #endregion Команды
+        #endregion Команда загрузки базы
 
-        #region Команда добавления клиента
+        /*#region Команда добавления клиента
         public ICommand AddClientCommand { get; }
         private bool CanAddClientCommandExecute(object parametr)
         {
@@ -105,7 +112,7 @@ namespace OnLineShop.ViewModel
             addClient.ShowDialog();
             AddClientViewModel.AddNewCustomer -= dataBaseProcessing.InsertNewCustomerRequest;
         }
-        #endregion
+        #endregion Команды
 
         #region Команда обновления данных о клиенте
         public ICommand UpdateCustomerDataCommand { get; }
@@ -122,7 +129,7 @@ namespace OnLineShop.ViewModel
             changeCustomerWindow.ShowDialog();
             ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
         }
-        #endregion
+        #endregion Команда обновления данных о клиенте
 
         #region Команда удаления клиента
         public ICommand RemoveClientCommand { get; }
@@ -136,7 +143,7 @@ namespace OnLineShop.ViewModel
                 dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
             else MessageBox.Show("Слабак :-))))");
         }
-        #endregion
+        #endregion Команда удаления клиента
 
         #region Команда просмотра покупок
         public ICommand CustomerProductCommand { get; }
@@ -152,7 +159,7 @@ namespace OnLineShop.ViewModel
             ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
-        #endregion
+        #endregion Команда просмотра покупок
 
         #region Команда "О программе"
         public ICommand AboutProgrammCommand { get; }
@@ -163,11 +170,9 @@ namespace OnLineShop.ViewModel
                 "А так же большой респект видео хостингу YouTube и отдельным сайтам где я искал информацию. " +
                 "Если Вам понравилась программа - ставьте лайки (кнопку я не делал, да и не буду), " +
                 "если не понравилась - можете жаловаться в ООН");
-        } 
+        }
+        #endregion Команда "О программе"
+        */
         #endregion
-
-        #endregion
-
-
     }
 }

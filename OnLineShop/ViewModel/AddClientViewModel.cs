@@ -7,12 +7,13 @@ using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
 {
-    internal class AddClientViewModel:ViewModelBase
+    internal class AddClientViewModel : ViewModelBase
     {
+        public static event Action<Client> AddNewCustomer;
 
-        public static event Action<Customer> AddNewCustomer;
-        private Customer newCustomer;
-        public Customer NewCustomer
+        private Client newCustomer;
+
+        public Client NewCustomer
         {
             get => newCustomer;
             set => Set(ref newCustomer, value);
@@ -20,13 +21,15 @@ namespace OnLineShop.ViewModel
 
         public AddClientViewModel()
         {
-            NewCustomer = new Customer();
+            NewCustomer = new Client();
             AddButtonCommand = new LambdaCommand(OnAddButtonCommandExecited, CanAddButtonCommandExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
         }
 
         #region Команда добавление пользователя
+
         public ICommand AddButtonCommand { get; }
+
         private bool CanAddButtonCommandExecute(object parameter)
         {
             if (String.IsNullOrEmpty(NewCustomer.Surname)
@@ -36,21 +39,26 @@ namespace OnLineShop.ViewModel
                 return false;
             return true;
         }
+
         private void OnAddButtonCommandExecited(object parameter)
         {
             AddNewCustomer?.Invoke(NewCustomer);
             Application.Current.Windows[1].Close();
         }
-        #endregion
+
+        #endregion Команда добавление пользователя
 
         #region Команда отмены добавления пользователя
+
         public ICommand CancelButtonCommand { get; }
+
         private bool CanCancelButtonCommandExecute(object parameter) => true;
+
         private void OnCancelButtonCommandExecuted(object parameter)
         {
-            Application.Current.Windows[1].Close(); 
+            Application.Current.Windows[1].Close();
         }
-        #endregion
 
+        #endregion Команда отмены добавления пользователя
     }
 }

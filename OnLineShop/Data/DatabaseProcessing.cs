@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using OnLineShop.DBContext;
 using OnLineShop.Model;
 using System;
 using System.Collections;
@@ -26,10 +27,13 @@ namespace OnLineShop.Data
         private SqlDataAdapter SqlDataAdapterClientDB;
         private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
 
-        public Func<string, Task<DataTable>> FillClientsDataTable;
-        public Func<string, Task<DataTable>> FillProductDataTable;
+        public Func<string, Task<IEnumerable<Client>>> FillClientsDataTable;
+        public Func<string, Task<IEnumerable<Client>>> FillProductDataTable;
 
         private string sqlRequest;
+
+        private ClientsDbContext clientsDB = new();
+        private ProductDbContext productDB = new();
 
         public DatabaseProcessing()
         {
@@ -64,19 +68,19 @@ namespace OnLineShop.Data
             NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
         }
 
-        private async Task<DataTable> FillDataTable(string Db)
-        {
-            if (Db == "ClentsDB")
-            {
-                await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-                return ClientsDataTable;
-            }
-            else
-            {
-                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
-                return ProductDataTable;
-            }
-        }
+        //private async Task<DataTable> FillDataTable(string Db)
+        //{
+        //    if (Db == "ClentsDB")
+        //    {
+        //        await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
+        //        return ClientsDataTable;
+        //    }
+        //    else
+        //    {
+        //        await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
+        //        return ProductDataTable;
+        //    }
+        //}
 
         /// <summary>Запуск соединения с базой</summary>
         /// <returns>состояние соединения</returns>
@@ -87,45 +91,47 @@ namespace OnLineShop.Data
                 if (s == "ClientsDB")
                 {
                     //await Task.Run(() => connectionClientsDB.OpenAsync());
+                    FillClientsDataTable = FillDataTable;
                     return await Task.Run(() => clientsDB.Database.CanConnectAsync());
-                    //FillClientsDataTable = FillDataTable;
                 }
                 else
                 {
-                    await Task.Run(() => connectionProductDB.OpenAsync());
+                    //await Task.Run(() => connectionProductDB.OpenAsync());
                     FillProductDataTable = FillDataTable;
-                    return connectionProductDB.State.ToString();
+                    //return connectionProductDB.State.ToString();
+                    return await Task.Run(() => productDB.Database.CanConnectAsync());
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show($"{e.Message}");
-                return "Closed";
+                return false;
             }
-            finally
-            {
-                if (s == "ClentsDB")
-                    await Task.Run(() => connectionClientsDB.Close());
-                await Task.Run(() => connectionProductDB.Close());
-            }
+            //finally
+            //{
+            //    if (s == "ClentsDB")
+            //        await Task.Run(() => connectionClientsDB.Close());
+            //    await Task.Run(() => connectionProductDB.Close());
+            //}
         }
 
-        public async Task<List<Client>> FillDataTable(string Db)
+        public async Task<IEnumerable<Client>> FillDataTable(string Db)
         {
             if (Db == "ClientsDB")
             {
                 //await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-                return await Task.Run(() => clientsDB.Clients.);
+                return await Task.Run(() => clientsDB.Clients.ToList());
                 //return ClientsDataTable;
             }
             else
             {
-                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
+                return await Task.Run(() => clientsDB.Clients);
+                //await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
                 //return ProductDataTable;
             }
         }
 
-        #region Запросы к БД
+        /*#region Запросы к БД
 
         public void InsertNewCustomerRequest(Customer newCustomer)
         {
@@ -195,6 +201,6 @@ namespace OnLineShop.Data
             return await FillDataTable(" ");
         }
 
-        #endregion Запросы к БД
+        #endregion Запросы к БД*/
     }
 }
