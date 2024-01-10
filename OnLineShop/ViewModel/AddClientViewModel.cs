@@ -7,50 +7,58 @@ using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
 {
-    internal class AddClientViewModel:ViewModelBase
+    internal class AddClientViewModel : ViewModelBase
     {
+        public static event Action<Client> AddNewClient;
 
-        public static event Action<Customer> AddNewCustomer;
-        private Customer newCustomer;
-        public Customer NewCustomer
+        private Client newClient;
+
+        public Client NewClient
         {
-            get => newCustomer;
-            set => Set(ref newCustomer, value);
+            get => newClient;
+            set => Set(ref newClient, value);
         }
 
         public AddClientViewModel()
         {
-            NewCustomer = new Customer();
+            NewClient = new Client();
             AddButtonCommand = new LambdaCommand(OnAddButtonCommandExecited, CanAddButtonCommandExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
         }
 
         #region Команда добавление пользователя
+
         public ICommand AddButtonCommand { get; }
+
         private bool CanAddButtonCommandExecute(object parameter)
         {
-            if (String.IsNullOrEmpty(NewCustomer.Surname)
-                    || String.IsNullOrEmpty(NewCustomer.Name)
-                    || String.IsNullOrEmpty(NewCustomer.Patronymic)
-                    || String.IsNullOrEmpty(NewCustomer.Email))
+            if (String.IsNullOrEmpty(NewClient.Surname)
+                    || String.IsNullOrEmpty(NewClient.Name)
+                    || String.IsNullOrEmpty(NewClient.Patronymic)
+                    || String.IsNullOrEmpty(NewClient.Email))
                 return false;
             return true;
         }
+
         private void OnAddButtonCommandExecited(object parameter)
         {
-            AddNewCustomer?.Invoke(NewCustomer);
+            AddNewClient?.Invoke(NewClient);
             Application.Current.Windows[1].Close();
         }
-        #endregion
+
+        #endregion Команда добавление пользователя
 
         #region Команда отмены добавления пользователя
+
         public ICommand CancelButtonCommand { get; }
+
         private bool CanCancelButtonCommandExecute(object parameter) => true;
+
         private void OnCancelButtonCommandExecuted(object parameter)
         {
-            Application.Current.Windows[1].Close(); 
+            Application.Current.Windows[1].Close();
         }
-        #endregion
 
+        #endregion Команда отмены добавления пользователя
     }
 }

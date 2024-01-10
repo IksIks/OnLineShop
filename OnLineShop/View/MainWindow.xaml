@@ -7,44 +7,44 @@
         xmlns:vm="clr-namespace:OnLineShop.ViewModel"
         Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Window.DataContext>
     <DockPanel Background="Beige">
         <Menu DockPanel.Dock="Top" Background="Beige">
             <MenuItem Header="Меню">
-                <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="ClentsDB"/>
-                <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="ProductDB"/>
+                <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="ClientsDB" />
+                <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="ProductDB" />
             </MenuItem>
-            <MenuItem Header="О программе" Command="{Binding AboutProgrammCommand}"/>
+            <MenuItem Header="О программе" Command="{Binding AboutProgrammCommand}" />
         </Menu>
         <StatusBar DockPanel.Dock="Bottom" Background="Beige" Margin="3,0,0,3">
             <StatusBar.Resources>
                 <Style x:Key="BorderStyle" TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                    <Setter Property="Background" Value="Khaki"/>
-                    <Setter Property="BorderThickness" Value="0.5"/>
-                    <Setter Property="BorderBrush" Value="Black"/>
-                    <Setter Property="Padding" Value="0,0,0,1"/>
+                    <Setter Property="CornerRadius" Value="10" />
+                    <Setter Property="Background" Value="Khaki" />
+                    <Setter Property="BorderThickness" Value="0.5" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="Padding" Value="0,0,0,1" />
                 </Style>
             </StatusBar.Resources>
             <Border Style="{StaticResource BorderStyle}">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="4"/>
+                    <DropShadowEffect ShadowDepth="4" />
                 </Border.Effect>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="База клиентов" Foreground="DarkBlue"/>
+                        <TextBlock Text="База клиентов" Foreground="DarkBlue" />
                         <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ClienDBColorStatus}" Margin="2,2,0,0" />
                     </StackPanel>
                 </StatusBarItem>
             </Border>
             <Border Style="{StaticResource BorderStyle}">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="4"/>
+                    <DropShadowEffect ShadowDepth="4" />
                 </Border.Effect>
                 <StatusBarItem>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="База покупок" Foreground="DarkBlue"/>
+                        <TextBlock Text="База покупок" Foreground="DarkBlue" />
                         <Ellipse Height="10" Stroke="Black" Width="10" Fill="{Binding ProductDBColorStatus}" Margin="2,2,0,0" />
                     </StackPanel>
                 </StatusBarItem>
@@ -52,24 +52,24 @@
         </StatusBar>
         <Grid ShowGridLines="False">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="89*"/>
-                <ColumnDefinition Width="311*"/>
+                <ColumnDefinition Width="89*" />
+                <ColumnDefinition Width="311*" />
             </Grid.ColumnDefinitions>
             <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
                 <UniformGrid.Resources>
                 </UniformGrid.Resources>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding CustomerProductCommand}"
-                        CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
+                        CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}" />
                 <Button Style="{StaticResource NewButtonStyle}" FontSize="13" Command="{Binding UpdateCustomerDataCommand}"
                     CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}">
                     <Button.Content>
-                        <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center"/>
+                        <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center" />
                     </Button.Content>
                 </Button>
                 <Button Style="{StaticResource NewButtonStyle}" Content="Добавление клиента" FontSize="13"
-                        Command="{Binding AddClientCommand}"/>
+                        Command="{Binding AddClientCommand}" />
                 <Button Style="{StaticResource NewButtonStyle}" Content="Удаление клиента" FontSize="13"
-                        Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}"/>
+                        Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}" />
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
                 <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"
@@ -78,30 +78,30 @@
                           CanUserResizeRows="False" CanUserResizeColumns="False">
                     <DataGrid.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="LightBlue" Offset="0"/>
-                            <GradientStop Color="SlateGray" Offset="1"/>
+                            <GradientStop Color="LightBlue" Offset="0" />
+                            <GradientStop Color="SlateGray" Offset="1" />
                         </LinearGradientBrush>
                     </DataGrid.Background>
                     <DataGrid.Resources>
                         <Style TargetType="DataGridCell" x:Key="StyleCell">
-                            <Setter Property="Background" Value="Beige"/>
+                            <Setter Property="Background" Value="Beige" />
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Olive"/>
+                                    <Setter Property="Background" Value="Olive" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                         <Style TargetType="DataGridColumnHeader" x:Key="StyleHeader">
-                            <Setter Property="Background" Value="BurlyWood"/>
-                        </Style>                        
+                            <Setter Property="Background" Value="BurlyWood" />
+                        </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}"/>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
-                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
-                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}" />
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

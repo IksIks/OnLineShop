@@ -1,5 +1,5 @@
 ﻿using Npgsql;
-using OnLineShop.Model;
+using OnLineShop.DBContext;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,6 +25,8 @@ namespace OnLineShop.Data
         public Func<string, Task<DataTable>> FillProductDataTable;
 
         private string sqlRequest;
+
+        private ClientsDbContext ClientsDB = new();
 
         public DatabaseProcessing()
         {
@@ -64,6 +66,7 @@ namespace OnLineShop.Data
             if (Db == "ClentsDB")
             {
                 await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
+                await Task.Run(() => ClientsDB.Clients.);
                 return ClientsDataTable;
             }
             else
