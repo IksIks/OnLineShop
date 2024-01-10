@@ -12,8 +12,8 @@
     <DockPanel Background="Beige">
         <Menu DockPanel.Dock="Top" Background="Beige">
             <MenuItem Header="Меню">
-                <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectDBCommand}" CommandParameter="ClientsDB" />
-                <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectDBCommand}" CommandParameter="ProductDB" />
+                <MenuItem Header="Загрузка базы клиентов" Command="{Binding ConnectClientDBCommand}" CommandParameter="ClentsDB" />
+                <MenuItem Header="Загрузка базы товаров" Command="{Binding ConnectClientDBCommand}" CommandParameter="ProductDB" />
             </MenuItem>
             <MenuItem Header="О программе" Command="{Binding AboutProgrammCommand}" />
         </Menu>

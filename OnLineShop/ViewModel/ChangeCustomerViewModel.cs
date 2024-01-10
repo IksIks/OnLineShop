@@ -10,19 +10,17 @@ namespace OnLineShop.ViewModel
 {
     internal class ChangeCustomerViewModel : BaseINPC
     {
-        public static event Action<Client> ChangeCustomerDataEvent;
-
-        private Client newClient;
-
-        public Client NewClient
+        public static event Action<Customer> ChangeCustomerDataEvent;
+        private Customer newCustomer;
+        public Customer NewCustomer
         {
-            get => newClient;
-            set => Set(ref newClient, value);
+            get => newCustomer;
+            set => Set(ref newCustomer, value);
         }
 
         public ChangeCustomerViewModel()
         {
-            newClient = new Client();
+            newCustomer = new Customer();
             MainWindowViewModel.ChangeCustomerEvent += MainWindowViewModel_ChangeCustomer;
             SaveChanges = new LambdaCommand(OnSaveChangesExecuted, CanSaveChangesExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
@@ -30,47 +28,43 @@ namespace OnLineShop.ViewModel
 
         private void MainWindowViewModel_ChangeCustomer(DataRow row)
         {
-            NewClient.Id = (int)row["ID"];
-            NewClient.Surname = row["Surname"].ToString();
-            NewClient.Name = row["name"].ToString();
-            NewClient.Patronymic = row["Patronymic"].ToString();
-            NewClient.PhoneNumber = row["PhoneNumber"].ToString();
-            NewClient.Email = row["Email"].ToString();
+            NewCustomer.ID = (int)row["ID"];
+            NewCustomer.Surname = row["Surname"].ToString();
+            NewCustomer.Name = row["name"].ToString();
+            NewCustomer.Patronymic = row["Patronymic"].ToString();
+            NewCustomer.PhoneNumber = row["PhoneNumber"].ToString();
+            NewCustomer.Email = row["Email"].ToString();
         }
 
+
+
         #region Команда сохранения изменений в данных пользователя
-
         public ICommand SaveChanges { get; }
-
         private bool CanSaveChangesExecute(object parameter)
         {
-            if (String.IsNullOrEmpty(NewClient.Surname)
-                    || String.IsNullOrEmpty(NewClient.Name)
-                    || String.IsNullOrEmpty(NewClient.Patronymic)
-                    || String.IsNullOrEmpty(NewClient.Email))
+            if (String.IsNullOrEmpty(NewCustomer.Surname)
+                    || String.IsNullOrEmpty(NewCustomer.Name)
+                    || String.IsNullOrEmpty(NewCustomer.Patronymic)
+                    || String.IsNullOrEmpty(NewCustomer.Email))
                 return false;
             return true;
         }
 
         private void OnSaveChangesExecuted(object parameter)
         {
-            ChangeCustomerDataEvent?.Invoke(NewClient);
+            ChangeCustomerDataEvent?.Invoke(NewCustomer);
             Application.Current.Windows[1].Close();
-        }
+        } 
+        #endregion
 
-        #endregion Команда сохранения изменений в данных пользователя
 
         #region Команда отмены добавления пользователя
-
         public ICommand CancelButtonCommand { get; }
-
         private bool CanCancelButtonCommandExecute(object parameter) => true;
-
         private void OnCancelButtonCommandExecuted(object parameter)
         {
             Application.Current.Windows[1].Close();
         }
-
-        #endregion Команда отмены добавления пользователя
+        #endregion
     }
 }

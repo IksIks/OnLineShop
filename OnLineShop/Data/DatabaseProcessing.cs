@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using OnLineShop.DBContext;
 using OnLineShop.Model;
 using System;
 using System.Collections;
@@ -32,9 +31,6 @@ namespace OnLineShop.Data
 
         private string sqlRequest;
 
-        private ClientsDbContext clientsDB = new();
-        private ProductDbContext productDB = new();
-
         public DatabaseProcessing()
         {
             connectionStringClientsDB = new SqlConnectionStringBuilder()
@@ -66,6 +62,20 @@ namespace OnLineShop.Data
 
             SqlDataAdapterClientDB = new SqlDataAdapter("SELECT * FROM Clients", connectionClientsDB);
             NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
+        }
+
+        private async Task<DataTable> FillDataTable(string Db)
+        {
+            if (Db == "ClentsDB")
+            {
+                await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
+                return ClientsDataTable;
+            }
+            else
+            {
+                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
+                return ProductDataTable;
+            }
         }
 
         /// <summary>Запуск соединения с базой</summary>
