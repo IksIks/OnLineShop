@@ -100,18 +100,17 @@ namespace OnLineShop.Data
             }
         }
 
-        public async Task<IEnumerable<Client>> FillDataTable(string Db)
+        public async Task<List<Client>> FillDataTable(string Db)
         {
             if (Db == "ClientsDB")
             {
                 //await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-                return await Task.Run(() => clientsDB.Clients);
+                return await Task.Run(() => clientsDB.Clients.);
                 //return ClientsDataTable;
             }
             else
             {
-                return await Task.Run(() => productDB.Shoppingcarts);
-                //await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
+                await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
                 //return ProductDataTable;
             }
         }
