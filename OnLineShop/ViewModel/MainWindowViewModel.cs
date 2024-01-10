@@ -17,13 +17,13 @@ namespace OnLineShop.ViewModel
         private string clienDBColorStatus = "Red", productDBColorStatus = "Red";
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
-
+        
         private DataTable clientsDataGridItemTable;
         private DataTable productDataGridItemTable;
-
+        
         public static event Action<DataRow> ChangeCustomerEvent;
         public static event Action<DataTable> ViewProductCustomerTableEvent;
-
+       
         public DataTable ProductDataGridItemTable
         {
             get => productDataGridItemTable;
@@ -69,6 +69,7 @@ namespace OnLineShop.ViewModel
         private bool CanConnectClientDBCommandExecute(object parameter)
         {
             return (clientsDataGridItemTable is null || productDataGridItemTable is null);
+
         }
         private async void OnConnectClientDBCommandExecuted(object parameter)
         {
@@ -89,10 +90,9 @@ namespace OnLineShop.ViewModel
             }
         }
 
-        #endregion Команда загрузки базы
+        #endregion Команды
 
         #region Команда добавления клиента
-
         public ICommand AddClientCommand { get; }
         private bool CanAddClientCommandExecute(object parametr)
         {
@@ -105,11 +105,9 @@ namespace OnLineShop.ViewModel
             addClient.ShowDialog();
             AddClientViewModel.AddNewCustomer -= dataBaseProcessing.InsertNewCustomerRequest;
         }
-
-        #endregion Команда добавления клиента
+        #endregion
 
         #region Команда обновления данных о клиенте
-
         public ICommand UpdateCustomerDataCommand { get; }
         private bool CanUpdateCustomerDataCommandExecute(object parameter)
         {
@@ -124,11 +122,9 @@ namespace OnLineShop.ViewModel
             changeCustomerWindow.ShowDialog();
             ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
         }
-
-        #endregion Команда обновления данных о клиенте
+        #endregion
 
         #region Команда удаления клиента
-
         public ICommand RemoveClientCommand { get; }
         private bool CanRemoveClientCommandExecute(object parameter)
         {
@@ -140,11 +136,9 @@ namespace OnLineShop.ViewModel
                 dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
             else MessageBox.Show("Слабак :-))))");
         }
-
-        #endregion Команда удаления клиента
+        #endregion
 
         #region Команда просмотра покупок
-
         public ICommand CustomerProductCommand { get; }
         private bool CanCustomerProductCommandExecute(object parameter)
         {
@@ -158,11 +152,9 @@ namespace OnLineShop.ViewModel
             ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
-
-        #endregion Команда просмотра покупок
+        #endregion
 
         #region Команда "О программе"
-
         public ICommand AboutProgrammCommand { get; }
         private bool CanAboutProgrammCommandExecute(object parameter) => true;
         private void OnAboutProgrammCommandExecuted(object parameter)
@@ -171,10 +163,11 @@ namespace OnLineShop.ViewModel
                 "А так же большой респект видео хостингу YouTube и отдельным сайтам где я искал информацию. " +
                 "Если Вам понравилась программа - ставьте лайки (кнопку я не делал, да и не буду), " +
                 "если не понравилась - можете жаловаться в ООН");
-        }
+        } 
+        #endregion
 
-        #endregion Команда "О программе"
+        #endregion
 
-        #endregion Команды
+
     }
 }
