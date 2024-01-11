@@ -1,6 +1,8 @@
-﻿namespace OnLineShop.Model;
+﻿using OnLineShop.Model.INPC;
 
-public partial class Shoppingcart
+namespace OnLineShop.Model;
+
+public partial class Shoppingcart : BaseINPC
 {
     public int Id { get; set; }
 
