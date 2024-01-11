@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace OnLineShop.ViewModel
@@ -112,10 +111,10 @@ namespace OnLineShop.ViewModel
 
         private void OnAddClientCommandExecuted(object parameter)
         {
-            AddClientViewModel.AddNewCustomer += dataBaseProcessing.InsertNewCustomerRequest;
+            AddClientViewModel.AddNewClient += dataBaseProcessing.InsertNewCustomerRequest;
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
-            AddClientViewModel.AddNewCustomer -= dataBaseProcessing.InsertNewCustomerRequest;
+            AddClientViewModel.AddNewClient -= dataBaseProcessing.InsertNewCustomerRequest;
         }
 
         #endregion Команда добавления клиента
@@ -135,10 +134,10 @@ namespace OnLineShop.ViewModel
         {
             var row = (parameter as DataRowView).Row;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
-            ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
+            //ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
             ChangeCustomerEvent?.Invoke(row);
             changeCustomerWindow.ShowDialog();
-            ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
+            //ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
         }
 
         #endregion Команда обновления данных о клиенте
@@ -156,8 +155,8 @@ namespace OnLineShop.ViewModel
 
         private void OnRemoveClientCommandExecuted(Object parameter)
         {
-            if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-                dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
+            if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes) ;
+            //dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
             else MessageBox.Show("Слабак :-))))");
         }
 
@@ -179,7 +178,7 @@ namespace OnLineShop.ViewModel
             string email = (parameter as DataRowView).Row[5].ToString();
             CustomerProductView producWindow = new CustomerProductView();
 
-            ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
+            //ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
 

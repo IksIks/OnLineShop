@@ -12,17 +12,17 @@ namespace OnLineShop.ViewModel
     {
         public static event Action<Client> ChangeCustomerDataEvent;
 
-        private Client newCustomer;
+        private Client newClient;
 
-        public Client NewCustomer
+        public Client NewClient
         {
-            get => newCustomer;
-            set => Set(ref newCustomer, value);
+            get => newClient;
+            set => Set(ref newClient, value);
         }
 
         public ChangeCustomerViewModel()
         {
-            newCustomer = new Client();
+            newClient = new Client();
             MainWindowViewModel.ChangeCustomerEvent += MainWindowViewModel_ChangeCustomer;
             SaveChanges = new LambdaCommand(OnSaveChangesExecuted, CanSaveChangesExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
@@ -30,12 +30,12 @@ namespace OnLineShop.ViewModel
 
         private void MainWindowViewModel_ChangeCustomer(DataRow row)
         {
-            NewCustomer.Id = (int)row["ID"];
-            NewCustomer.Surname = row["Surname"].ToString();
-            NewCustomer.Name = row["name"].ToString();
-            NewCustomer.Patronymic = row["Patronymic"].ToString();
-            NewCustomer.PhoneNumber = row["PhoneNumber"].ToString();
-            NewCustomer.Email = row["Email"].ToString();
+            NewClient.Id = (int)row["ID"];
+            NewClient.Surname = row["Surname"].ToString();
+            NewClient.Name = row["name"].ToString();
+            NewClient.Patronymic = row["Patronymic"].ToString();
+            NewClient.PhoneNumber = row["PhoneNumber"].ToString();
+            NewClient.Email = row["Email"].ToString();
         }
 
         #region Команда сохранения изменений в данных пользователя
@@ -44,17 +44,17 @@ namespace OnLineShop.ViewModel
 
         private bool CanSaveChangesExecute(object parameter)
         {
-            if (String.IsNullOrEmpty(NewCustomer.Surname)
-                    || String.IsNullOrEmpty(NewCustomer.Name)
-                    || String.IsNullOrEmpty(NewCustomer.Patronymic)
-                    || String.IsNullOrEmpty(NewCustomer.Email))
+            if (String.IsNullOrEmpty(NewClient.Surname)
+                    || String.IsNullOrEmpty(NewClient.Name)
+                    || String.IsNullOrEmpty(NewClient.Patronymic)
+                    || String.IsNullOrEmpty(NewClient.Email))
                 return false;
             return true;
         }
 
         private void OnSaveChangesExecuted(object parameter)
         {
-            ChangeCustomerDataEvent?.Invoke(NewCustomer);
+            ChangeCustomerDataEvent?.Invoke(NewClient);
             Application.Current.Windows[1].Close();
         }
 

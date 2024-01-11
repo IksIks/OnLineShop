@@ -9,19 +9,19 @@ namespace OnLineShop.ViewModel
 {
     internal class AddClientViewModel : ViewModelBase
     {
-        public static event Action<Client> AddNewCustomer;
+        public static event Action<Client> AddNewClient;
 
-        private Client newCustomer;
+        private Client newClient;
 
-        public Client NewCustomer
+        public Client NewClient
         {
-            get => newCustomer;
-            set => Set(ref newCustomer, value);
+            get => newClient;
+            set => Set(ref newClient, value);
         }
 
         public AddClientViewModel()
         {
-            NewCustomer = new Client();
+            NewClient = new Client();
             AddButtonCommand = new LambdaCommand(OnAddButtonCommandExecited, CanAddButtonCommandExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
         }
@@ -32,21 +32,23 @@ namespace OnLineShop.ViewModel
 
         private bool CanAddButtonCommandExecute(object parameter)
         {
-            if (String.IsNullOrEmpty(NewCustomer.Surname)
-                    || String.IsNullOrEmpty(NewCustomer.Name)
-                    || String.IsNullOrEmpty(NewCustomer.Patronymic)
-                    || String.IsNullOrEmpty(NewCustomer.Email))
+            if (String.IsNullOrEmpty(NewClient.Surname)
+                    || String.IsNullOrEmpty(NewClient.Name)
+                    || String.IsNullOrEmpty(NewClient.Patronymic)
+                    || String.IsNullOrEmpty(NewClient.Email))
                 return false;
             return true;
         }
 
         private void OnAddButtonCommandExecited(object parameter)
         {
-            AddNewCustomer?.Invoke(NewCustomer);
+            AddNewClient?.Invoke(NewClient);
             Application.Current.Windows[1].Close();
         }
 
         #endregion Команда добавление пользователя
+
+        //------------------------------------------------------------------------------------------------------------------------------------
 
         #region Команда отмены добавления пользователя
 
