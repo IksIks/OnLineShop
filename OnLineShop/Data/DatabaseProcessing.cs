@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using OnLineShop.DBContext;
 using OnLineShop.Model;
+using OnLineShop.Model.INPC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,118 +17,79 @@ namespace OnLineShop.Data
 {
     internal class DatabaseProcessing
     {
-        private readonly SqlConnection connectionClientsDB;
-        private readonly NpgsqlConnection connectionProductDB;
-        private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
-        private readonly SqlConnectionStringBuilder connectionStringClientsDB;
+        //private readonly SqlConnection connectionClientsDB;
+        //private readonly NpgsqlConnection connectionProductDB;
+        //private readonly NpgsqlConnectionStringBuilder connectionStringProductDB;
+        //private readonly SqlConnectionStringBuilder connectionStringClientsDB;
 
-        private DataTable ClientsDataTable = new DataTable();
-        private DataTable ProductDataTable;
-
-        private SqlDataAdapter SqlDataAdapterClientDB;
-        private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
-
-        public Func<string, Task<IEnumerable<Client>>> FillClientsDataTable;
-        public Func<string, Task<IEnumerable<Client>>> FillProductDataTable;
-
-        private string sqlRequest;
+        //private SqlDataAdapter SqlDataAdapterClientDB;
+        //private NpgsqlDataAdapter NpgsqlDataAdapterRoductDB;
 
         private ClientsDbContext clientsDB = new();
         private ProductDbContext productDB = new();
 
         public DatabaseProcessing()
         {
-            connectionStringClientsDB = new SqlConnectionStringBuilder()
-            {
-                DataSource = @"(localdb)\MSSQLLocalDB",
-                AttachDBFilename = @"C:\YandexDisk\IKS\C#_проекты\Проекты\OnLineShop\OnLineShop\DB\CLIENTSDB.MDF",
-                InitialCatalog = "ClientsDB",
-                IntegratedSecurity = true,
-                Pooling = true
-            };
+            //connectionStringClientsDB = new SqlConnectionStringBuilder()
+            //{
+            //    DataSource = @"(localdb)\MSSQLLocalDB",
+            //    AttachDBFilename = @"C:\YandexDisk\IKS\C#_проекты\Проекты\OnLineShop\OnLineShop\DB\CLIENTSDB.MDF",
+            //    InitialCatalog = "ClientsDB",
+            //    IntegratedSecurity = true,
+            //    Pooling = true
+            //};
 
-            connectionStringProductDB = new NpgsqlConnectionStringBuilder()
-            {
-                Host = "localhost",
-                Database = "ProductDB",
-                Username = "postgres",
-                Password = "1"
-            };
+            //connectionStringProductDB = new NpgsqlConnectionStringBuilder()
+            //{
+            //    Host = "localhost",
+            //    Database = "ProductDB",
+            //    Username = "postgres",
+            //    Password = "1"
+            //};
 
-            connectionClientsDB = new SqlConnection()
-            {
-                ConnectionString = connectionStringClientsDB.ConnectionString
-            };
+            //connectionClientsDB = new SqlConnection()
+            //{
+            //    ConnectionString = connectionStringClientsDB.ConnectionString
+            //};
 
-            connectionProductDB = new NpgsqlConnection()
-            {
-                ConnectionString = connectionStringProductDB.ConnectionString
-            };
+            //connectionProductDB = new NpgsqlConnection()
+            //{
+            //    ConnectionString = connectionStringProductDB.ConnectionString
+            //};
 
-            SqlDataAdapterClientDB = new SqlDataAdapter("SELECT * FROM Clients", connectionClientsDB);
-            NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
+            //SqlDataAdapterClientDB = new SqlDataAdapter("SELECT * FROM Clients", connectionClientsDB);
+            //NpgsqlDataAdapterRoductDB = new NpgsqlDataAdapter("SELECT * FROM shoppingcart", connectionProductDB);
         }
 
-        //private async Task<DataTable> FillDataTable(string Db)
-        //{
-        //    if (Db == "ClentsDB")
-        //    {
-        //        await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-        //        return ClientsDataTable;
-        //    }
-        //    else
-        //    {
-        //        await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
-        //        return ProductDataTable;
-        //    }
-        //}
-
-        /// <summary>Запуск соединения с базой</summary>
-        /// <returns>состояние соединения</returns>
         public async Task<bool> StartConnectionDBAsync(string s)
         {
             try
             {
                 if (s == "ClientsDB")
-                {
-                    //await Task.Run(() => connectionClientsDB.OpenAsync());
-                    FillClientsDataTable = FillDataTable;
                     return await Task.Run(() => clientsDB.Database.CanConnectAsync());
-                }
                 else
-                {
-                    //await Task.Run(() => connectionProductDB.OpenAsync());
-                    FillProductDataTable = FillDataTable;
-                    //return connectionProductDB.State.ToString();
                     return await Task.Run(() => productDB.Database.CanConnectAsync());
-                }
             }
             catch (Exception e)
             {
                 MessageBox.Show($"{e.Message}");
                 return false;
             }
-            //finally
-            //{
-            //    if (s == "ClentsDB")
-            //        await Task.Run(() => connectionClientsDB.Close());
-            //    await Task.Run(() => connectionProductDB.Close());
-            //}
         }
 
-        public async Task<IEnumerable<Client>> FillDataTable(string Db)
+        public async Task<IEnumerable<BaseINPC>> GetDataFromDBAsync(string Db)
         {
-            if (Db == "ClientsDB")
+            try
             {
-                //await Task.Run(() => SqlDataAdapterClientDB.Fill(ClientsDataTable));
-                return await Task.Run(() => clientsDB.Clients.ToList());
-                //return ClientsDataTable;
+                if (Db == "ClientsDB")
+                    return await Task.Run(() => clientsDB.Clients.ToList());
+                else
+                    return await Task.Run(() => productDB.Shoppingcarts.ToList());
             }
-            else
+            catch (Exception e)
             {
-                return await Task.Run(() => clientsDB.Clients);
-                //await Task.Run(() => NpgsqlDataAdapterRoductDB.Fill(ProductDataTable = new DataTable()));
-                //return ProductDataTable;
+                MessageBox.Show($"{e.Message}");
+                return new List<BaseINPC>();
             }
         }
 
