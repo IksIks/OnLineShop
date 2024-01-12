@@ -5,6 +5,7 @@ using OnLineShop.View;
 using OnLineShop.ViewModel.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Input;
@@ -18,20 +19,20 @@ namespace OnLineShop.ViewModel
         private string dbChoise;
         private DatabaseProcessing dataBaseProcessing;
 
-        private IEnumerable<Client> clientsDataGridItemTable;
-        private IEnumerable<Shoppingcart> productDataGridItemTable;
+        private ObservableCollection<Client> clientsDataGridItemTable;
+        private List<Shoppingcart> productDataGridItemTable;
 
         public static event Action<DataRow> ChangeCustomerEvent;
 
         public static event Action<DataTable> ViewProductCustomerTableEvent;
 
-        public IEnumerable<Shoppingcart> ProductDataGridItemTable
+        public List<Shoppingcart> ProductDataGridItemTable
         {
             get => productDataGridItemTable;
             set => Set(ref productDataGridItemTable, value);
         }
 
-        public IEnumerable<Client> ClientsDataGridItemTable
+        public ObservableCollection<Client> ClientsDataGridItemTable
         {
             get => clientsDataGridItemTable;
             set => Set(ref clientsDataGridItemTable, value);
@@ -86,12 +87,12 @@ namespace OnLineShop.ViewModel
                 if (dbChoise == "ClientsDB")
                 {
                     ClienDBColorStatus = "Green";
-                    ClientsDataGridItemTable = await dataBaseProcessing.GetDataFromDBAsync(dbChoise) as IEnumerable<Client>;
+                    ClientsDataGridItemTable = new ObservableCollection<Client>(await dataBaseProcessing.GetDataFromDBAsync(dbChoise) as List<Client>);
                 }
                 else
                 {
                     ProductDBColorStatus = "Green";
-                    ProductDataGridItemTable = await dataBaseProcessing.GetDataFromDBAsync(dbChoise) as IEnumerable<Shoppingcart>;
+                    ProductDataGridItemTable = await dataBaseProcessing.GetDataFromDBAsync(dbChoise) as List<Shoppingcart>;
                 }
             }
         }
@@ -109,12 +110,13 @@ namespace OnLineShop.ViewModel
             return (clientsDataGridItemTable != null);
         }
 
-        private void OnAddClientCommandExecuted(object parameter)
+        private async void OnAddClientCommandExecuted(object parameter)
         {
             AddClientViewModel.AddNewClient += dataBaseProcessing.InsertNewCustomerRequest;
             AddClient addClient = new AddClient();
             addClient.ShowDialog();
             AddClientViewModel.AddNewClient -= dataBaseProcessing.InsertNewCustomerRequest;
+            ClientsDataGridItemTable = new ObservableCollection<Client>(await dataBaseProcessing.GetDataFromDBAsync("ClientsDB") as List<Client>);
         }
 
         #endregion Команда добавления клиента
@@ -150,13 +152,17 @@ namespace OnLineShop.ViewModel
 
         private bool CanRemoveClientCommandExecute(object parameter)
         {
-            return (parameter is DataRowView);
+            return (parameter is Client);
         }
 
         private void OnRemoveClientCommandExecuted(Object parameter)
         {
-            if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes) ;
-            //dataBaseProcessing.RemoveCustomerRequest(parameter as DataRowView);
+            var tempClient = parameter as Client;
+            if (MessageBox.Show("Вы уверены", "Подтверждение удаления клиента", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+            {
+                dataBaseProcessing.RemoveCustomerRequest(tempClient);
+                ClientsDataGridItemTable.Remove(tempClient);
+            }
             else MessageBox.Show("Слабак :-))))");
         }
 

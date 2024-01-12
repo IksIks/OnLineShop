@@ -11,5 +11,10 @@ namespace OnLineShop
         {
             InitializeComponent();
         }
+
+        private void Button_Click()
+        {
+
+        }
     }
 }

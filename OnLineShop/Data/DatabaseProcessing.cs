@@ -1,9 +1,12 @@
-﻿using OnLineShop.DBContext;
+﻿using Microsoft.EntityFrameworkCore;
+using OnLineShop.DBContext;
 using OnLineShop.Model;
 using OnLineShop.Model.INPC;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -21,6 +24,7 @@ namespace OnLineShop.Data
 
         private ClientsDbContext clientsDB = new();
         private ProductDbContext productDB = new();
+        public List<Client> t { get; set; }
 
         public DatabaseProcessing()
         {
@@ -93,26 +97,6 @@ namespace OnLineShop.Data
         {
             clientsDB.Clients.Add(newClient);
             clientsDB.SaveChanges();
-            //DataRow row = ClientsDataTable.NewRow();
-            //row["Surname"] = newCustomer.Surname;
-            //row["Name"] = newCustomer.Name;
-            //row["Patronymic"] = newCustomer.Patronymic;
-            //row["PhoneNumber"] = newCustomer.PhoneNumber;
-            //row["Email"] = newCustomer.Email;
-            //ClientsDataTable.Rows.Add(row);
-
-            //sqlRequest = @"INSERT INTO Clients (Surname, Name, Patronymic, PhoneNumber, Email)" +
-            //                    "VALUES (@Surname, @Name, @Patronymic, @PhoneNumber, @Email);" +
-            //                    "SET @ID = @@IDENTITY;";
-            //SqlDataAdapterClientDB.InsertCommand = new SqlCommand(sqlRequest, connectionClientsDB);
-
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID").Direction = ParameterDirection.Output;
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Surname", SqlDbType.NVarChar, 20, "Surname");
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 20, "Name");
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Patronymic", SqlDbType.NVarChar, 20, "Patronymic");
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@PhoneNumber", SqlDbType.NVarChar, 20, "PhoneNumber");
-            //SqlDataAdapterClientDB.InsertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
-            //SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
 
         /* public void UpdateCustomerRequest(Customer customer)
@@ -142,23 +126,25 @@ namespace OnLineShop.Data
              SqlDataAdapterClientDB.UpdateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 20, "Email");
              SqlDataAdapterClientDB.Update(ClientsDataTable);
          }
-
-         public void RemoveCustomerRequest(DataRowView row)
-         {
-             row.Row.Delete();
-             sqlRequest = "DELETE FROM Clients WHERE ID = @ID";
-             SqlDataAdapterClientDB.DeleteCommand = new SqlCommand(sqlRequest, connectionClientsDB);
-             SqlDataAdapterClientDB.DeleteCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID");
-             SqlDataAdapterClientDB.Update(ClientsDataTable);
-         }
-
-         public async Task<DataTable> CustomerProductRequest(string email)
-         {
-             sqlRequest = $"SELECT * FROM shoppingcart WHERE email = '{email}'";
-             NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
-             return await FillDataTable(" ");
-         }
         */
+
+        public void RemoveCustomerRequest(Client client)
+        {
+            clientsDB.Clients.Remove(client);
+            clientsDB.SaveChanges();
+            //row.Row.Delete();
+            //sqlRequest = "DELETE FROM Clients WHERE ID = @ID";
+            //SqlDataAdapterClientDB.DeleteCommand = new SqlCommand(sqlRequest, connectionClientsDB);
+            //SqlDataAdapterClientDB.DeleteCommand.Parameters.Add("@ID", SqlDbType.Int, 4, "ID");
+            //SqlDataAdapterClientDB.Update(ClientsDataTable);
+        }
+
+        //public async Task<DataTable> CustomerProductRequest(string email)
+        //{
+        //    sqlRequest = $"SELECT * FROM shoppingcart WHERE email = '{email}'";
+        //    NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
+        //    return await FillDataTable(" ");
+        //}
 
         #endregion Запросы к БД
     }

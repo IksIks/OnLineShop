@@ -72,7 +72,7 @@
                         Command="{Binding RemoveClientCommand}" CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}" />
             </UniformGrid>
             <GroupBox Grid.Column="1" Header="Список клиентов" Foreground='Red'>
-                <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable}" AutoGenerateColumns="False" FrozenColumnCount="6"
+                <DataGrid x:Name="DataGrid" ItemsSource="{Binding ClientsDataGridItemTable, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" FrozenColumnCount="6"
                           SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" ColumnWidth="*"
                           GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray"
                           CanUserResizeRows="False" CanUserResizeColumns="False">
