@@ -20,9 +20,15 @@ namespace OnLineShop.Data
             try
             {
                 if (s == "ClientsDB")
-                    return await Task.Run(() => clientsDB.Database.CanConnectAsync());
+                    using (clientsDB = new ClientsDbContext())
+                    {
+                        return await Task.Run(() => clientsDB.Database.CanConnectAsync());
+                    }
                 else
-                    return await Task.Run(() => productDB.Database.CanConnectAsync());
+                    using (productDB = new ProductDbContext())
+                    {
+                        return await Task.Run(() => productDB.Database.CanConnectAsync());
+                    }
             }
             catch (Exception e)
             {
@@ -57,34 +63,66 @@ namespace OnLineShop.Data
 
         public void InsertNewCustomerRequest(Client newClient)
         {
-            using (clientsDB = new ClientsDbContext())
+            try
             {
-                clientsDB.Clients.Add(newClient);
-                clientsDB.SaveChanges();
+                using (clientsDB = new ClientsDbContext())
+                {
+                    clientsDB.Clients.Add(newClient);
+                    clientsDB.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
             }
         }
 
         public void UpdateCustomerRequest(Client client)
         {
-            using (clientsDB = new ClientsDbContext())
+            try
             {
-                clientsDB.Clients.Update(client);
-                clientsDB.SaveChanges();
+                using (clientsDB = new ClientsDbContext())
+                {
+                    clientsDB.Clients.Update(client);
+                    clientsDB.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
             }
         }
 
         public void RemoveCustomerRequest(Client client)
         {
-            clientsDB.Clients.Remove(client);
-            clientsDB.SaveChanges();
+            try
+            {
+                using (clientsDB = new ClientsDbContext())
+                {
+                    clientsDB.Clients.Remove(client);
+                    clientsDB.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
+            }
         }
 
         public List<Shoppingcart> ClientProductRequest(string email)
         {
-            using (productDB = new ProductDbContext())
+            try
             {
-                var clientProduct = productDB.Shoppingcarts;
-                return clientProduct.Where(product => product.Email == email).ToList();
+                using (productDB = new ProductDbContext())
+                {
+                    var clientProduct = productDB.Shoppingcarts;
+                    return clientProduct.Where(product => product.Email == email).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
+                return new List<Shoppingcart>();
             }
         }
 
