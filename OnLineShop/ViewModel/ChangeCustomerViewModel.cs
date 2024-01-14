@@ -2,7 +2,6 @@
 using OnLineShop.Model;
 using OnLineShop.Model.INPC;
 using System;
-using System.Data;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,23 +23,23 @@ namespace OnLineShop.ViewModel
         {
             newClient = new Client();
             MainWindowViewModel.ChangeCustomerEvent += MainWindowViewModel_ChangeCustomer;
-            SaveChanges = new LambdaCommand(OnSaveChangesExecuted, CanSaveChangesExecute);
+            SaveChangesCommand = new LambdaCommand(OnSaveChangesExecuted, CanSaveChangesExecute);
             CancelButtonCommand = new LambdaCommand(OnCancelButtonCommandExecuted, CanCancelButtonCommandExecute);
         }
 
-        private void MainWindowViewModel_ChangeCustomer(DataRow row)
+        private void MainWindowViewModel_ChangeCustomer(Client client)
         {
-            NewClient.Id = (int)row["ID"];
-            NewClient.Surname = row["Surname"].ToString();
-            NewClient.Name = row["name"].ToString();
-            NewClient.Patronymic = row["Patronymic"].ToString();
-            NewClient.PhoneNumber = row["PhoneNumber"].ToString();
-            NewClient.Email = row["Email"].ToString();
+            NewClient.Id = client.Id;
+            NewClient.Surname = client.Surname.ToString();
+            NewClient.Name = client.Name.ToString();
+            NewClient.Patronymic = client.Patronymic.ToString();
+            NewClient.PhoneNumber = client.PhoneNumber.ToString();
+            NewClient.Email = client.Email.ToString();
         }
 
         #region Команда сохранения изменений в данных пользователя
 
-        public ICommand SaveChanges { get; }
+        public ICommand SaveChangesCommand { get; }
 
         private bool CanSaveChangesExecute(object parameter)
         {

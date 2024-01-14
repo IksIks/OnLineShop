@@ -9,28 +9,27 @@
         Title="Изменение данных клиента" WindowStartupLocation="CenterScreen" Background="Beige"
         MaxHeight="350" MaxWidth="210" MinHeight="350" MinWidth="210">
     <Window.DataContext>
-        <vm:ChangeCustomerViewModel/>
+        <vm:ChangeCustomerViewModel />
     </Window.DataContext>
     <StackPanel Margin="5" Background="Beige">
-        <Label Content="Фамилия" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding NewCustomer.Surname, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
-        <Label Content="Имя" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding NewCustomer.Name, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
-        <Label Content="Отчество" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding NewCustomer.Patronymic, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
-        <Label Content="Телефон" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding NewCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
-        <Label Content="EMail" FontWeight="Bold" FontSize="14"/>
-        <TextBox Text="{Binding NewCustomer.Email, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14"/>
-        
+        <Label Content="Фамилия" FontWeight="Bold" FontSize="14" />
+        <TextBox Text="{Binding NewClient.Surname, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
+        <Label Content="Имя" FontWeight="Bold" FontSize="14" />
+        <TextBox Text="{Binding NewClient.Name, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
+        <Label Content="Отчество" FontWeight="Bold" FontSize="14" />
+        <TextBox Text="{Binding NewClient.Patronymic, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
+        <Label Content="Телефон" FontWeight="Bold" FontSize="14" />
+        <TextBox Text="{Binding NewClient.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
+        <Label Content="EMail" FontWeight="Bold" FontSize="14" />
+        <TextBox Text="{Binding NewClient.Email, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" FontSize="14" />
+
         <Grid Margin="0,6,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="10*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Сохранить" Style="{StaticResource ButtonConfirm}" Command="{Binding SaveChanges}"/>
-            <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}" Command="{Binding CancelButtonCommand}"/>
+            <Button Grid.Column="0" Content="Сохранить" Style="{StaticResource ButtonConfirm}" Command="{Binding SaveChangesCommand}" />
+            <Button Grid.Column="1" Content="Отменить" Style="{StaticResource ButtonConfirm}" Command="{Binding CancelButtonCommand}" />
         </Grid>
-
     </StackPanel>
 </Window>

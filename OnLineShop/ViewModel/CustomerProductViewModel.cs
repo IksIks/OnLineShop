@@ -1,8 +1,6 @@
 ﻿using OnLineShop.Model;
 using OnLineShop.ViewModel.Base;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 
 namespace OnLineShop.ViewModel
 {

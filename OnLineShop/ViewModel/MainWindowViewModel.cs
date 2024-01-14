@@ -22,7 +22,7 @@ namespace OnLineShop.ViewModel
         private ObservableCollection<Client> clientsDataGridItemTable;
         private List<Shoppingcart> productDataGridItemTable;
 
-        public static event Action<DataRow> ChangeCustomerEvent;
+        public static event Action<Client> ChangeCustomerEvent;
 
         public static event Action<List<Shoppingcart>> ViewProductCustomerTableEvent;
 
@@ -129,17 +129,18 @@ namespace OnLineShop.ViewModel
 
         private bool CanUpdateCustomerDataCommandExecute(object parameter)
         {
-            return (parameter is DataRowView);
+            return (parameter is Client);
         }
 
-        private void OnUpdateCustomerDataCommandExecuted(object parameter)
+        private async void OnUpdateCustomerDataCommandExecuted(object parameter)
         {
-            var row = (parameter as DataRowView).Row;
+            var client = parameter as Client;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
-            //ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
-            ChangeCustomerEvent?.Invoke(row);
+            ChangeCustomerViewModel.ChangeCustomerDataEvent += dataBaseProcessing.UpdateCustomerRequest;
+            ChangeCustomerEvent?.Invoke(client);
             changeCustomerWindow.ShowDialog();
-            //ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
+            ChangeCustomerViewModel.ChangeCustomerDataEvent -= dataBaseProcessing.UpdateCustomerRequest;
+            ClientsDataGridItemTable = new ObservableCollection<Client>(await dataBaseProcessing.GetDataFromDBAsync("ClientsDB") as List<Client>);
         }
 
         #endregion Команда обновления данных о клиенте
