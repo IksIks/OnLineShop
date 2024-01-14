@@ -3,7 +3,6 @@ using OnLineShop.Model;
 using OnLineShop.Model.INPC;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -80,7 +79,7 @@ namespace OnLineShop.Data
             clientsDB.SaveChanges();
         }
 
-        public List<Shoppingcart> CustomerProductRequest(string email)
+        public List<Shoppingcart> ClientProductRequest(string email)
         {
             using (productDB = new ProductDbContext())
             {

@@ -58,9 +58,9 @@
             <UniformGrid HorizontalAlignment="Center" VerticalAlignment="Center" Columns="1">
                 <UniformGrid.Resources>
                 </UniformGrid.Resources>
-                <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding CustomerProductCommand}"
+                <Button Style="{StaticResource NewButtonStyle}" Content="Покупки клиента" FontSize="13" Command="{Binding ClientProductCommand}"
                         CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}" />
-                <Button Style="{StaticResource NewButtonStyle}" FontSize="13" Command="{Binding UpdateCustomerDataCommand}"
+                <Button Style="{StaticResource NewButtonStyle}" FontSize="13" Command="{Binding UpdateClientDataCommand}"
                     CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItem}">
                     <Button.Content>
                         <TextBlock Text="Обновление данных о клиенте" TextWrapping='Wrap' TextAlignment="Center" />

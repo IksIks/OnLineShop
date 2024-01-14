@@ -6,7 +6,6 @@ using OnLineShop.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Windows;
 using System.Windows.Input;
 
@@ -61,9 +60,9 @@ namespace OnLineShop.ViewModel
             dataBaseProcessing = new DatabaseProcessing();
             ConnectClientDBCommand = new LambdaCommand(OnConnectClientDBCommandExecuted, CanConnectClientDBCommandExecute);
             AddClientCommand = new LambdaCommand(OnAddClientCommandExecuted, CanAddClientCommandExecute);
-            UpdateCustomerDataCommand = new LambdaCommand(OnUpdateCustomerDataCommandExecuted, CanUpdateCustomerDataCommandExecute);
+            UpdateClientDataCommand = new LambdaCommand(OnUpdateClientDataCommandExecuted, CanUpdateClientDataCommandExecute);
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
-            CustomerProductCommand = new LambdaCommand(OnCustomerProductCommandExecuted, CanCustomerProductCommandExecute);
+            ClientProductCommand = new LambdaCommand(OnClientProductCommandExecuted, CanClientProductCommandExecute);
             AboutProgrammCommand = new LambdaCommand(OnAboutProgrammCommandExecuted, CanAboutProgrammCommandExecute);
         }
 
@@ -125,14 +124,14 @@ namespace OnLineShop.ViewModel
 
         #region Команда обновления данных о клиенте
 
-        public ICommand UpdateCustomerDataCommand { get; }
+        public ICommand UpdateClientDataCommand { get; }
 
-        private bool CanUpdateCustomerDataCommandExecute(object parameter)
+        private bool CanUpdateClientDataCommandExecute(object parameter)
         {
             return (parameter is Client);
         }
 
-        private async void OnUpdateCustomerDataCommandExecuted(object parameter)
+        private async void OnUpdateClientDataCommandExecuted(object parameter)
         {
             var client = parameter as Client;
             ChangeCustomer changeCustomerWindow = new ChangeCustomer();
@@ -173,19 +172,19 @@ namespace OnLineShop.ViewModel
 
         #region Команда просмотра покупок
 
-        public ICommand CustomerProductCommand { get; }
+        public ICommand ClientProductCommand { get; }
 
-        private bool CanCustomerProductCommandExecute(object parameter)
+        private bool CanClientProductCommandExecute(object parameter)
         {
             return (parameter is Client) && ProductDataGridItemTable != null;
         }
 
-        private void OnCustomerProductCommandExecuted(object parameter)
+        private void OnClientProductCommandExecuted(object parameter)
         {
             string email = (parameter as Client).Email;
             CustomerProductView producWindow = new CustomerProductView();
 
-            ViewProductCustomerTableEvent?.Invoke(dataBaseProcessing.CustomerProductRequest(email));
+            ViewProductCustomerTableEvent?.Invoke(dataBaseProcessing.ClientProductRequest(email));
             producWindow.ShowDialog();
         }
 
