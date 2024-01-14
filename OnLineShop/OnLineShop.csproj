@@ -43,9 +43,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DB\ProductDB.accdb">
+    <EmbeddedResource Include="DB\ProductDB.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
     <EmbeddedResource Include="DB\ClientsDB.mdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
