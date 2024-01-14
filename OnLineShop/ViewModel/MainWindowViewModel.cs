@@ -24,7 +24,7 @@ namespace OnLineShop.ViewModel
 
         public static event Action<DataRow> ChangeCustomerEvent;
 
-        public static event Action<DataTable> ViewProductCustomerTableEvent;
+        public static event Action<List<Shoppingcart>> ViewProductCustomerTableEvent;
 
         public List<Shoppingcart> ProductDataGridItemTable
         {
@@ -176,15 +176,15 @@ namespace OnLineShop.ViewModel
 
         private bool CanCustomerProductCommandExecute(object parameter)
         {
-            return (parameter is DataRowView) && ProductDataGridItemTable != null;
+            return (parameter is Client) && ProductDataGridItemTable != null;
         }
 
-        private async void OnCustomerProductCommandExecuted(object parameter)
+        private void OnCustomerProductCommandExecuted(object parameter)
         {
-            string email = (parameter as DataRowView).Row[5].ToString();
+            string email = (parameter as Client).Email;
             CustomerProductView producWindow = new CustomerProductView();
 
-            //ViewProductCustomerTableEvent?.Invoke(await dataBaseProcessing.CustomerProductRequest(email));
+            ViewProductCustomerTableEvent?.Invoke(dataBaseProcessing.CustomerProductRequest(email));
             producWindow.ShowDialog();
         }
 

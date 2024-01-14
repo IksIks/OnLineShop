@@ -54,10 +54,10 @@
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding id}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}" />
-                    <DataGridTextColumn Header="Email" Binding="{Binding email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
-                    <DataGridTextColumn Header="Код продукта" Binding="{Binding productcode}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
-                    <DataGridTextColumn Header="Товар" Binding="{Binding productname}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" Foreground="Red" CellStyle="{StaticResource StyleCell}" />
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                    <DataGridTextColumn Header="Код продукта" Binding="{Binding ProductCode}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
+                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" HeaderStyle="{StaticResource StyleHeader}" IsReadOnly="True" CellStyle="{StaticResource StyleCell}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

@@ -1,13 +1,16 @@
-﻿using OnLineShop.ViewModel.Base;
+﻿using OnLineShop.Model;
+using OnLineShop.ViewModel.Base;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 
 namespace OnLineShop.ViewModel
 {
     internal class CustomerProductViewModel : ViewModelBase
     {
-        private DataTable productCustomerDBGrid;
+        private IEnumerable<Shoppingcart> productCustomerDBGrid;
 
-        public DataTable ProductCustomerDBGrid
+        public IEnumerable<Shoppingcart> ProductCustomerDBGrid
         {
             get => productCustomerDBGrid;
             set => Set(ref productCustomerDBGrid, value);
@@ -18,7 +21,7 @@ namespace OnLineShop.ViewModel
             MainWindowViewModel.ViewProductCustomerTableEvent += MainWindowViewModel_ViewProductCustomerTableEvent;
         }
 
-        private void MainWindowViewModel_ViewProductCustomerTableEvent(DataTable obj)
+        private void MainWindowViewModel_ViewProductCustomerTableEvent(IEnumerable<Shoppingcart> obj)
         {
             ProductCustomerDBGrid = obj;
         }

@@ -24,7 +24,6 @@ namespace OnLineShop.Data
 
         private ClientsDbContext clientsDB = new();
         private ProductDbContext productDB = new();
-        public List<Client> t { get; set; }
 
         public DatabaseProcessing()
         {
@@ -139,12 +138,17 @@ namespace OnLineShop.Data
             //SqlDataAdapterClientDB.Update(ClientsDataTable);
         }
 
-        //public async Task<DataTable> CustomerProductRequest(string email)
-        //{
-        //    sqlRequest = $"SELECT * FROM shoppingcart WHERE email = '{email}'";
-        //    NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
-        //    return await FillDataTable(" ");
-        //}
+        public List<Shoppingcart> CustomerProductRequest(string email)
+        {
+            using (productDB = new ProductDbContext())
+            {
+                var clientProduct = productDB.Shoppingcarts;
+                return clientProduct.Where(product => product.Email == email).ToList();
+            }
+            //sqlRequest = $"SELECT * FROM shoppingcart WHERE email = '{email}'";
+            //NpgsqlDataAdapterRoductDB.SelectCommand.CommandText = sqlRequest;
+            //return await FillDataTable(" ");
+        }
 
         #endregion Запросы к БД
     }
