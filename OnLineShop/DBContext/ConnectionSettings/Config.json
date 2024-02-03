@@ -1,0 +1,6 @@
+﻿{
+  "ConnectionStrings": {
+    "PSGSQL": "Host=localhost;UserName=postgres;Password=1;Database=ProductDB",
+    "SQL": "Server=(localDB)\\MSSQLLocalDB;Database=ClientsDB;TrustServerCertificate=true;Trusted_Connection=True"
+  }
+}

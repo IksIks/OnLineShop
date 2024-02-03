@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnLineShop.DBContext.ConnectionSettings;
 using OnLineShop.Model;
 
 namespace OnLineShop.DBContext;
@@ -7,6 +8,7 @@ public partial class ClientsDbContext : DbContext
 {
     public ClientsDbContext()
     {
+        Database.EnsureCreated();
     }
 
     public ClientsDbContext(DbContextOptions<ClientsDbContext> options)
@@ -17,7 +19,7 @@ public partial class ClientsDbContext : DbContext
     public virtual DbSet<Client> Clients { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=(localDB)\\MSSQLLocalDB;AttachDbFilename=C:\\YandexDisk\\IKS\\C#_проекты\\Проекты\\OnLineShop\\OnLineShop\\DB\\ClientsDB.mdf;Database=ClientsDB;TrustServerCertificate=true;Trusted_Connection=True");
+                => optionsBuilder.UseSqlServer(ConSettings.GetConnectionString("SQL"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,9 +32,5 @@ public partial class ClientsDbContext : DbContext
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
             entity.Property(e => e.Surname).IsRequired().HasMaxLength(50);
         });
-
-        //OnModelCreatingPartial(modelBuilder);
     }
-
-    //private partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

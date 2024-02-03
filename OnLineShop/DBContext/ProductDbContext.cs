@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnLineShop.Model;
+using OnLineShop.DBContext.ConnectionSettings;
 
 namespace OnLineShop.DBContext;
 
@@ -7,6 +8,7 @@ public partial class ProductDbContext : DbContext
 {
     public ProductDbContext()
     {
+        Database.EnsureCreated();
     }
 
     public ProductDbContext(DbContextOptions<ProductDbContext> options)
@@ -17,8 +19,7 @@ public partial class ProductDbContext : DbContext
     public virtual DbSet<Shoppingcart> Shoppingcarts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;UserName=postgres;Password=1;Database=ProductDB");
+                => optionsBuilder.UseNpgsql(ConSettings.GetConnectionString("PSGSQL"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,9 +35,5 @@ public partial class ProductDbContext : DbContext
             entity.Property(e => e.Email).IsRequired();
             entity.Property(e => e.ProductName).IsRequired();
         });
-
-        //OnModelCreatingPartial(modelBuilder);
     }
-
-    //private partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
